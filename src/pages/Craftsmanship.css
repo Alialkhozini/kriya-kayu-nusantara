@@ -1,0 +1,99 @@
+.craftsmanship-page {
+  width: 100%;
+}
+
+.craft-hero {
+  position: relative;
+  height: 50vh;
+  min-height: 400px;
+  background-image: url('https://images.unsplash.com/photo-1611078505081-309d73d6b042?q=80&w=1600');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+}
+
+.craft-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(43, 38, 35, 0.7);
+  z-index: 1;
+}
+
+.craft-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.craft-hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.craft-hero-content p {
+  font-size: 1.2rem;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+.process-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.process-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.process-reverse {
+  direction: rtl;
+}
+
+.process-reverse .process-text-col {
+  direction: ltr;
+}
+
+.process-image-col img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.process-text-col h3 {
+  font-size: 1.5rem;
+  color: var(--accent-brown);
+  margin-bottom: 1rem;
+}
+
+.process-text-col p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+@media (max-width: 768px) {
+  .process-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .process-reverse {
+    direction: ltr;
+  }
+  
+  .process-image-col img {
+    height: 250px;
+  }
+}

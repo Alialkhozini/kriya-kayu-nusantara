@@ -1,0 +1,128 @@
+.products-page {
+  width: 100%;
+}
+
+.products-hero {
+  position: relative;
+  height: 40vh;
+  min-height: 300px;
+  background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1600');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+}
+
+.products-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(43, 38, 35, 0.7);
+  z-index: 1;
+}
+
+.products-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.products-hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.products-hero-content p {
+  font-size: 1.1rem;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+  background: var(--c-bg-white);
+  border: 1.5px solid var(--c-primary);
+  color: var(--c-primary);
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-btn:hover {
+  background: var(--c-primary);
+  color: var(--c-bg-white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-btn:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: none;
+}
+
+.filter-btn.active {
+  background: var(--c-primary-dark);
+  color: var(--c-bg-white);
+  border-color: var(--c-primary-dark);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 992px) {
+  .product-catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .product-catalog-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .products-hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .category-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 0.75rem; /* Space for scrollbar */
+    margin-left: -1rem; /* Negative margin to span full width */
+    margin-right: -1rem;
+    padding-left: 1rem; /* Padding to keep content aligned */
+    padding-right: 1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .category-filter::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+  
+  .filter-btn {
+    white-space: nowrap;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
