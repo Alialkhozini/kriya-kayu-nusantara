@@ -11,7 +11,7 @@ const FloatingSocials = () => {
           <a
             key={key}
             href={href}
-            className="social-btn"
+            className={`social-btn social-btn--${key}`}
             title={label}
             aria-label={label}
             target={external ? '_blank' : undefined}
