@@ -7,6 +7,7 @@ import './Navbar.css';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [visible, setVisible] = React.useState(true);
   const { t, i18n } = useTranslation();
   const { isDarkMode, toggleTheme } = useTheme();
 
@@ -18,8 +19,34 @@ const Navbar = () => {
     localStorage.setItem('kriya_lang', newLang);
   };
 
+  React.useEffect(() => {
+    let lastScrollY = window.scrollY || document.documentElement.scrollTop;
+
+    const handleScroll = () => {
+      if (isOpen) {
+        setVisible(true);
+        return;
+      }
+
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+      if (scrollY < 50) {
+        setVisible(true);
+      } else if (scrollY > lastScrollY) {
+        setVisible(false); // scrolling down
+      } else {
+        setVisible(true); // scrolling up
+      }
+
+      lastScrollY = scrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isOpen]);
+
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${visible ? 'navbar--visible' : 'navbar--hidden'}`}>
       <div className="container navbar-container">
         <Link to="/" className="navbar-logo" aria-label="Kriya Kayu Nusantara">
           <img
