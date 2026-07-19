@@ -70,15 +70,6 @@ const Contact = () => {
                 <h3>✉️ {t('contact.email')}</h3>
                 <p>project.kriyakayunusantara@gmail.com</p>
               </div>
-
-              <div className="info-block social-block">
-                <h3>{t('contact.follow')}</h3>
-                <div className="social-links">
-                  <a href="#">Instagram</a>
-                  <a href="#">TikTok</a>
-                  <a href="#">LinkedIn</a>
-                </div>
-              </div>
             </AnimatedSection>
 
             <AnimatedSection className="contact-form-container" delay={0.3}>
