@@ -1,13 +1,21 @@
 :root {
-  /* Colors */
-  --c-primary: #8C5A35; /* Teak */
-  --c-primary-dark: #664126;
-  --c-secondary: #E6D5C3; /* Sand */
-  --c-bg-light: #F9F6F0; /* Cream */
+  /* Colors — taken from the brand assets, not invented.
+     #40311D is the exact logo colour (public/logo.png),
+     #D4C7B8 the exact reversed-logo colour (public/logo-light.png),
+     #3B2A1B the body-copy colour used throughout the printed catalogue. */
+  --c-primary: #40311D; /* Walnut — logo mark */
+  --c-primary-dark: #2A2013;
+  --c-secondary: #D4C7B8; /* Sand — reversed logo */
+  --c-secondary-soft: #E8E1D6;
+  --c-bg-light: #F7F4EF; /* Warm paper */
   --c-bg-white: #FFFFFF;
-  --c-text-main: #2C1E16; /* Espresso */
-  --c-text-muted: #5A473D;
-  --c-accent: #D4AF37; /* Gold */
+  --c-text-main: #3B2A1B; /* Catalogue body copy */
+  --c-text-muted: #6E6154;
+  --c-accent: #A08A6C; /* Mid tan, between walnut and sand */
+  --c-on-primary: #FFFFFF; /* Foreground on primary fills */
+  /* Text sitting on a darkened photograph. Deliberately NOT redefined for
+     dark mode — the overlay is dark in both themes, so this must not flip. */
+  --c-on-media: #D4C7B8;
 
   /* Typography */
   --font-heading: 'Playfair Display', serif;
@@ -28,18 +36,42 @@
   /* Radius */
   --radius-sm: 4px;
   --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* Borders & transitions */
+  --c-border: rgba(140, 90, 53, 0.18);
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.6s ease;
+
+  /* Palette aliases — legacy names mapped onto the canonical palette.
+     Defined via var() so [data-theme="dark"] overrides flow through. */
+  --bg-light: var(--c-bg-light);
+  --bg-white: var(--c-bg-white);
+  --text-primary: var(--c-text-main);
+  --text-secondary: var(--c-text-muted);
+  --text-light: var(--c-bg-white);
+  --accent-brown: var(--c-primary);
+  --accent-gold: var(--c-accent);
+  --border: var(--c-border);
 }
 
 [data-theme="dark"] {
-  --c-primary: #a67c52; /* Lighter teak */
-  --c-primary-dark: #8C5A35;
-  --c-secondary: #5A473D;
-  --c-bg-light: #1A1A1A; /* Dark BG */
-  --c-bg-white: #242424; /* Dark Surface */
-  --c-text-main: #E5E5E5; /* Light text */
-  --c-text-muted: #A3A3A3;
-  --c-bg-inverse: #111111; /* Darker section for contrast in dark mode */
-  --c-text-inverse: #F5F5F5;
+  /* Dark mode inverts the pairing: sand carries the brand, walnut recedes
+     into the surfaces. Same two brand colours, no new hues introduced. */
+  --c-primary: #C9B99F; /* Sand, lifted for contrast on dark */
+  --c-primary-dark: #D4C7B8;
+  --c-secondary: #4A3C2C;
+  --c-secondary-soft: #3A2F23;
+  --c-bg-light: #1A1611; /* Warm near-black, not neutral grey */
+  --c-bg-white: #241E18; /* Dark surface */
+  --c-text-main: #EDE6DC;
+  --c-text-muted: #A99C8C;
+  --c-accent: #A08A6C;
+  --c-on-primary: #2A2013; /* Dark ink on sand fills */
+  --c-bg-inverse: #12100C;
+  --c-text-inverse: #F5F1EA;
+  --c-border: rgba(212, 199, 184, 0.16);
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.5);
@@ -49,7 +81,8 @@
 .bg-light { background-color: var(--c-bg-light); color: var(--c-text-main); }
 .bg-white { background-color: var(--c-bg-white); color: var(--c-text-main); }
 .bg-dark { background-color: var(--c-bg-inverse, var(--c-text-main)); color: var(--c-text-inverse, var(--c-bg-white)); }
-.bg-primary { background-color: var(--c-primary); color: #FFFFFF; }
+.bg-primary { background-color: var(--c-primary); color: var(--c-on-primary); }
+.bg-primary h1, .bg-primary h2, .bg-primary h3, .bg-primary p { color: var(--c-on-primary); }
 .text-light, .text-light h2, .text-light p { color: var(--c-text-inverse, var(--c-bg-white)); }
 
 * {

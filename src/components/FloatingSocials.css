@@ -8,6 +8,8 @@
   z-index: 9999;
 }
 
+/* Brand palette only — platform colours (WhatsApp green, Instagram gradient)
+   would be the loudest thing on the page and sit outside the palette. */
 .social-btn {
   width: 50px;
   height: 50px;
@@ -15,32 +17,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  color: var(--c-on-primary);
+  background-color: var(--c-primary);
+  /* Sand ring so the rail still reads where it overlaps the walnut footer,
+     which is nearly the same value as the fill. */
+  border: 1px solid rgba(212, 199, 184, 0.4);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    background-color var(--transition-normal), color var(--transition-normal),
+    box-shadow var(--transition-normal);
   text-decoration: none;
 }
 
 .social-btn:hover {
-  transform: scale(1.15) translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  color: white;
-}
-
-.btn-email {
-  background-color: #F59E0B; /* Amber/Orange */
-}
-
-.btn-whatsapp {
-  background-color: #25D366; /* WhatsApp Green */
-}
-
-.btn-tiktok {
-  background-color: #000000; /* TikTok Black */
-}
-
-.btn-instagram {
-  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); /* Instagram Gradient */
+  transform: scale(1.12) translateY(-2px);
+  background-color: var(--c-bg-white);
+  color: var(--c-primary);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Adjust for mobile to not obstruct too much content */

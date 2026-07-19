@@ -4,7 +4,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  padding: 1.5rem 0;
+  padding: 0.9rem 0;
 }
 
 .navbar-container {
@@ -13,36 +13,32 @@
   align-items: center;
 }
 
+/* Full logo (mark + wordmark), swapped for dark mode. */
 .navbar-logo {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--c-text-main);
-  text-decoration: none;
-  letter-spacing: 0.5px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  text-decoration: none;
+  flex-shrink: 0;
 }
 
+/* The wordmark sets over three lines, so it needs height to stay legible. */
 .navbar-logo-img {
-  height: 40px;
+  height: 62px;
   width: auto;
+  max-width: 210px;
   object-fit: contain;
+  transition: opacity var(--transition-normal);
 }
 
-.navbar-logo-text {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--c-text-main);
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  line-height: 1.2;
+@media (max-width: 768px) {
+  .navbar-logo-img {
+    height: 48px;
+    max-width: 160px;
+  }
 }
 
-.navbar-logo-text span {
-  color: var(--c-primary);
+.navbar-logo:hover .navbar-logo-img {
+  opacity: 0.75;
 }
 
 .navbar-links {

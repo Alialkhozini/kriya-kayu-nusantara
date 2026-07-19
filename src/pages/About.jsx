@@ -27,7 +27,7 @@ const About = () => {
             <p>{t('about.legacy_p2')}</p>
           </AnimatedSection>
           <AnimatedSection className="about-story-image" delay={0.3}>
-            <img src="https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?q=80&w=800" alt="Woodworking tools" loading="lazy" />
+            <img src="/img/joinery-detail.jpg" alt="Woodworking tools" loading="lazy" />
           </AnimatedSection>
         </div>
       </section>
@@ -43,7 +43,7 @@ const About = () => {
           <div className="workshop-grid grid grid-cols-3 mt-lg">
             <AnimatedSection className="workshop-card" delay={0.1}>
               <div className="workshop-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1565538420870-da08ff96a207?q=80&w=800" alt="Craftsmen at work" loading="lazy" />
+                <img src="/img/workshop-weaving.jpg" alt="Craftsmen at work" loading="lazy" />
               </div>
               <div className="workshop-content">
                 <h3>{t('about.w1_title')}</h3>
@@ -53,7 +53,7 @@ const About = () => {
             
             <AnimatedSection className="workshop-card" delay={0.2}>
               <div className="workshop-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1502672260266-1c1c2b1bfc80?q=80&w=800" alt="Production process" loading="lazy" />
+                <img src="/img/workshop-frames.jpg" alt="Production process" loading="lazy" />
               </div>
               <div className="workshop-content">
                 <h3>{t('about.w2_title')}</h3>
@@ -63,7 +63,7 @@ const About = () => {
 
             <AnimatedSection className="workshop-card" delay={0.3}>
               <div className="workshop-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1622372738946-62e02505feb3?q=80&w=800" alt="Premium Teak" loading="lazy" />
+                <img src="/img/workshop-sanding.jpg" alt="Premium Teak" loading="lazy" />
               </div>
               <div className="workshop-content">
                 <h3>{t('about.w3_title')}</h3>

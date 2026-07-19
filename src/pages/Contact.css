@@ -6,7 +6,7 @@
   position: relative;
   height: 40vh;
   min-height: 300px;
-  background-image: url('https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?q=80&w=1600');
+  background-image: url('/img/living-room-teak.jpg');
   background-size: cover;
   background-position: center;
   display: flex;
@@ -21,7 +21,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(43, 38, 35, 0.7);
+  background: var(--c-overlay-mid);
   z-index: 1;
 }
 
@@ -130,7 +130,7 @@
 .form-group textarea {
   width: 100%;
   padding: 0.8rem 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--c-border);
   border-radius: var(--radius-sm);
   font-family: inherit;
   font-size: 1rem;

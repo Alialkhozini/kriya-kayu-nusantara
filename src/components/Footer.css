@@ -1,54 +1,85 @@
+.footer-logo {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+}
+
+.footer-logo img {
+  height: 56px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+}
+
+/* The footer is a fixed walnut slab in BOTH themes — it must not follow the
+   theme tokens, or dark mode inverts it to cream and the sand logo and
+   headings disappear against it. Values are the brand walnut and sand. */
 .footer {
-  background-color: var(--c-text-main);
-  color: var(--c-bg-light);
+  --footer-ink: #F2EBE1;
+  --footer-muted: #B5A695;
+  --footer-sand: #D4C7B8;
+
+  background-color: #33261A;
+  color: var(--footer-ink);
   padding-top: var(--space-xl);
 }
 
+/* Three columns since the Layanan list was removed. */
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.5fr;
-  gap: var(--space-md);
+  grid-template-columns: 2fr 1fr 1.75fr;
+  gap: var(--space-lg);
   margin-bottom: var(--space-lg);
 }
 
 .footer-brand h3 {
-  color: var(--c-bg-white);
+  color: var(--footer-ink);
   font-family: var(--font-heading);
   font-size: 1.5rem;
   margin-bottom: var(--space-sm);
 }
 
 .footer-brand p {
-  color: #a3958c;
+  color: var(--footer-muted);
   margin-bottom: var(--space-sm);
   max-width: 300px;
 }
 
+/* Matches the floating CTA rail: same 50px solid circle and hover inversion.
+   The footer sits on walnut, so the fill is sand rather than walnut — a
+   walnut-on-walnut chip would be invisible here. */
 .footer-social {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-top: 1.5rem;
 }
 
 .footer-social a {
-  color: var(--c-bg-light);
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  transition: all 0.3s ease;
+  color: #33261A;
+  background-color: var(--footer-sand);
+  border: 1px solid var(--footer-sand);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    background-color var(--transition-normal), color var(--transition-normal);
 }
 
 .footer-social a:hover {
-  background-color: var(--c-primary);
-  border-color: var(--c-primary);
+  transform: scale(1.12) translateY(-2px);
+  background-color: transparent;
+  color: var(--footer-sand);
+}
+
+.footer-social svg {
+  width: 22px;
+  height: 22px;
 }
 
 .footer h4 {
-  color: var(--c-bg-white);
+  color: var(--footer-ink);
   font-size: 1.125rem;
   margin-bottom: 1.5rem;
 }
@@ -60,16 +91,16 @@
 }
 
 .footer-links a {
-  color: #a3958c;
+  color: var(--footer-muted);
   transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-  color: var(--c-primary);
+  color: var(--footer-sand);
 }
 
 .footer-contact p {
-  color: #a3958c;
+  color: var(--footer-muted);
   margin-bottom: 0.5rem;
 }
 
@@ -84,7 +115,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1.5rem 0;
   text-align: center;
-  color: #a3958c;
+  color: var(--footer-muted);
   font-size: 0.875rem;
 }
 

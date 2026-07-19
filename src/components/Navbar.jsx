@@ -21,17 +21,13 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="container navbar-container">
-        <div className="navbar-logo">
-          <img 
-            src={isDarkMode ? "/icon-light.png" : "/icon.png"} 
-            alt="Logo Kriya Kayu Nusantara" 
-            className="navbar-logo-img" 
+        <Link to="/" className="navbar-logo" aria-label="Kriya Kayu Nusantara">
+          <img
+            src={isDarkMode ? '/brand-logo-light.png' : '/brand-logo.png'}
+            alt="Kriya Kayu Nusantara"
+            className="navbar-logo-img"
           />
-          <div className="navbar-logo-text" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1, fontSize: '1.25rem' }}>
-            <span style={{ color: 'var(--c-primary)' }}>Kriya Kayu</span>
-            <span>Nusantara</span>
-          </div>
-        </div>
+        </Link>
 
         <div className={`navbar-links ${isOpen ? 'active' : ''}`}>
           <NavLink to="/" end onClick={() => setIsOpen(false)}>{t('navbar.home')}</NavLink>

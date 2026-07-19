@@ -11,28 +11,28 @@ const Projects = () => {
       title: t('projects.p1_title'),
       client: t('projects.p1_client'),
       location: t('projects.p1_loc'),
-      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200",
+      image: "/img/poolside-loungers.jpg",
       description: t('projects.p1_desc')
     },
     {
       title: t('projects.p2_title'),
       client: t('projects.p2_client'),
       location: t('projects.p2_loc'),
-      image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1200",
+      image: "/img/bedroom-detail.jpg",
       description: t('projects.p2_desc')
     },
     {
       title: t('projects.p3_title'),
       client: t('projects.p3_client'),
       location: t('projects.p3_loc'),
-      image: "https://images.unsplash.com/photo-1600607687920-4e2a09c15468?q=80&w=1200",
+      image: "/img/living-room-teak.jpg",
       description: t('projects.p3_desc')
     },
     {
       title: t('projects.p4_title'),
       client: t('projects.p4_client'),
       location: t('projects.p4_loc'),
-      image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1200",
+      image: "/img/restaurant-interior.jpg",
       description: t('projects.p4_desc')
     }
   ];

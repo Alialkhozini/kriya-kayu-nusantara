@@ -1,225 +1,104 @@
+// Product catalogue — extracted from the official
+// "Mini Catalog Canvassing - Kriya Kayu Nusantara" PDF.
+// Photography lives in /public/catalog, one file per reference code.
+
 export const categories = [
-  { id: 'All', label: 'All Products', labelId: 'Semua Produk' },
-  { id: 'Restoran', label: 'Restoran', labelId: 'Restoran' },
-  { id: 'KolamRenang', label: 'Kolam Renang & Taman', labelId: 'Kolam Renang & Taman' },
-  { id: 'Lampu', label: 'Lampu & Dekoratif', labelId: 'Lampu & Dekoratif' },
-  { id: 'InRoom', label: 'In-Room Essentials', labelId: 'In-Room Essentials' }
+  { id: "All", label: "All Products", labelId: "Semua Produk" },
+  { id: "Restoran", label: "Restaurant", labelId: "Restoran" },
+  { id: "KolamRenang", label: "Poolside & Garden", labelId: "Kolam Renang & Taman" },
+  { id: "Lampu", label: "Lighting & Decorative", labelId: "Lampu & Dekoratif" },
+  { id: "InRoom", label: "In-Room Essentials", labelId: "In-Room Essentials" }
 ];
 
 export const products = [
-  // RESTORAN
-  {
-    category: "Restoran",
-    subCategory: "Kursi",
-    title: "Wood Chair",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "Restoran",
-    subCategory: "Kursi",
-    title: "Wood & Rattan Chair",
-    material: "Rotan Alami + Kayu Jati",
-    image: "https://images.unsplash.com/photo-1599839619722-39751411ea63?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "Restoran",
-    subCategory: "Kursi",
-    title: "Wood Chair (Tali Alami)",
-    material: "Tali Alami + Kayu Jati",
-    image: "https://images.unsplash.com/photo-1582662660049-d7ee6ffbfbb7?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "Restoran",
-    subCategory: "Kursi Tinggi",
-    title: "Wood Bar Chair",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1519947486511-46149fa0a254?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "Restoran",
-    subCategory: "Kursi Tinggi",
-    title: "Wood & Rattan Bar Chair",
-    material: "Rotan Alami + Kayu Jati",
-    image: "https://images.unsplash.com/photo-1505693314120-0d443867891c?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "Restoran",
-    subCategory: "Sofa",
-    title: "Wood Sofa",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "Restoran",
-    subCategory: "Sofa",
-    title: "Wood & Rattan Sofa",
-    material: "Rotan Alami + Kayu Jati",
-    image: "https://images.unsplash.com/photo-1558997519-83ea9252edf8?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "Restoran",
-    subCategory: "Meja",
-    title: "Wood Table",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "Restoran",
-    subCategory: "Meja Modular",
-    title: "Wood & Steel Modular Table",
-    material: "Besi + Kayu Jati",
-    image: "https://images.unsplash.com/photo-1517502474287-2195f3b7bfd8?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "Restoran",
-    subCategory: "Meja Kopi",
-    title: "Wood & Rattan Coffee Table",
-    material: "Rotan Alami + Kayu Jati",
-    image: "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-
-  // KOLAM RENANG & TAMAN
-  {
-    category: "KolamRenang",
-    subCategory: "Sunbed",
-    title: "Wood Lounger",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "KolamRenang",
-    subCategory: "Payung",
-    title: "Wood Umbrella",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1590412200988-a436970781fa?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-
-  // LAMPU & DEKORATIF
-  {
-    category: "Lampu",
-    subCategory: "Table Lamp",
-    title: "Wood Table Lamp",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "Lampu",
-    subCategory: "Standing Lamp",
-    title: "Wood Standing Lamp",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-
-  // IN-ROOM ESSENTIALS
-  {
-    category: "InRoom",
-    subCategory: "Dipan",
-    title: "Wood Bed Frame",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "InRoom",
-    subCategory: "Dipan",
-    title: "Wood & Rattan Bed",
-    material: "Rotan Alami + Kayu Jati",
-    image: "https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "InRoom",
-    subCategory: "TV Cabinet",
-    title: "Wood TV Cabinet",
-    material: "Rotan Alami + Kayu Jati",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "InRoom",
-    subCategory: "Lemari",
-    title: "Wood Wardrobe",
-    material: "Rotan Alami + Kayu Jati",
-    image: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "InRoom",
-    subCategory: "Rak Baju",
-    title: "Wood Hanger",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "InRoom",
-    subCategory: "Rak Sepatu",
-    title: "Wood Organizer",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1595514535415-8c08fb4f15dc?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "InRoom",
-    subCategory: "Gantungan",
-    title: "Wood Stand Hanger",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1581428982868-e410dd047a90?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "InRoom",
-    subCategory: "Nakas",
-    title: "Wood Side Table",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1532372576444-dda954194ad0?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "InRoom",
-    subCategory: "Nakas",
-    title: "Wood & Rattan Side Table",
-    material: "Rotan Alami + Kayu Jati",
-    image: "https://images.unsplash.com/photo-1515206680456-cc5567b51b75?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "InRoom",
-    subCategory: "Cermin",
-    title: "Wood Mirror",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1618220179428-22790b46a0eb?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "InRoom",
-    subCategory: "Tempat Sampah",
-    title: "Wood Bin",
-    material: "Kayu Jati",
-    image: "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  },
-  {
-    category: "InRoom",
-    subCategory: "Tempat Sampah",
-    title: "Wood & Rattan Bin",
-    material: "Rotan Alami + Kayu Jati",
-    image: "https://images.unsplash.com/photo-1558211583-d26f610c1eb1?q=80&w=800",
-    desc: "Tersedia dalam ukuran umum maupun ukuran custom"
-  }
+  { ref: "RST-01", category: "Restoran", subCategory: "Kursi", title: "Wood Chair", material: "Kayu Jati", image: "/catalog/rst-01.jpg" },
+  { ref: "RST-02", category: "Restoran", subCategory: "Kursi", title: "Wood Chair", material: "Kayu Jati", image: "/catalog/rst-02.jpg" },
+  { ref: "RST-03", category: "Restoran", subCategory: "Kursi", title: "Wood Chair", material: "Kayu Jati", image: "/catalog/rst-03.jpg" },
+  { ref: "RST-04", category: "Restoran", subCategory: "Kursi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-04.jpg" },
+  { ref: "RST-05", category: "Restoran", subCategory: "Kursi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-05.jpg" },
+  { ref: "RST-06", category: "Restoran", subCategory: "Kursi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-06.jpg" },
+  { ref: "RST-07", category: "Restoran", subCategory: "Kursi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-07.jpg" },
+  { ref: "RST-08", category: "Restoran", subCategory: "Kursi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-08.jpg" },
+  { ref: "RST-09", category: "Restoran", subCategory: "Kursi", title: "Wood Chair", material: "Kayu Jati", image: "/catalog/rst-09.jpg" },
+  { ref: "RST-10", category: "Restoran", subCategory: "Kursi", title: "Wood Chair", material: "Kayu Jati", image: "/catalog/rst-10.jpg" },
+  { ref: "RST-11", category: "Restoran", subCategory: "Kursi", title: "Wood Chair", material: "Tali Alami + Kayu Jati", image: "/catalog/rst-11.jpg" },
+  { ref: "RST-12", category: "Restoran", subCategory: "Kursi", title: "Wood Chair", material: "Kayu Jati", image: "/catalog/rst-12.jpg" },
+  { ref: "RST-13", category: "Restoran", subCategory: "Kursi", title: "Wood Chair", material: "Tali Alami + Kayu Jati", image: "/catalog/rst-13.jpg" },
+  { ref: "RST-14", category: "Restoran", subCategory: "Kursi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-14.jpg" },
+  { ref: "RST-15", category: "Restoran", subCategory: "Kursi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-15.jpg" },
+  { ref: "RST-16", category: "Restoran", subCategory: "Kursi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-16.jpg" },
+  { ref: "RST-17", category: "Restoran", subCategory: "Kursi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-17.jpg" },
+  { ref: "RST-18", category: "Restoran", subCategory: "Kursi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-18.jpg" },
+  { ref: "RST-19", category: "Restoran", subCategory: "Kursi Tinggi", title: "Wood Bar Chair", material: "Kayu Jati", image: "/catalog/rst-19.jpg" },
+  { ref: "RST-20", category: "Restoran", subCategory: "Kursi Tinggi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-20.jpg" },
+  { ref: "RST-21", category: "Restoran", subCategory: "Kursi Tinggi", title: "Wood & Rattan Chair", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-21.jpg" },
+  { ref: "RST-22", category: "Restoran", subCategory: "Sofa", title: "Wood Sofa", material: "Kayu Jati", image: "/catalog/rst-22.jpg" },
+  { ref: "RST-23", category: "Restoran", subCategory: "Sofa", title: "Wood Sofa", material: "Kayu Jati", image: "/catalog/rst-23.jpg" },
+  { ref: "RST-24", category: "Restoran", subCategory: "Sofa", title: "Wood Sofa", material: "Kayu Jati", image: "/catalog/rst-24.jpg" },
+  { ref: "RST-25", category: "Restoran", subCategory: "Sofa", title: "Wood Sofa", material: "Kayu Jati", image: "/catalog/rst-25.jpg" },
+  { ref: "RST-26", category: "Restoran", subCategory: "Sofa", title: "Wood & Rattan Sofa", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-26.jpg" },
+  { ref: "RST-27", category: "Restoran", subCategory: "Sofa", title: "Wood & Rattan Sofa", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-27.jpg" },
+  { ref: "RST-28", category: "Restoran", subCategory: "Meja", title: "Wood Table", material: "Kayu Jati", image: "/catalog/rst-28.jpg" },
+  { ref: "RST-29", category: "Restoran", subCategory: "Meja", title: "Wood Table", material: "Kayu Jati", image: "/catalog/rst-29.jpg" },
+  { ref: "RST-30", category: "Restoran", subCategory: "Meja", title: "Wood Table", material: "Kayu Jati", image: "/catalog/rst-30.jpg" },
+  { ref: "RST-31", category: "Restoran", subCategory: "Meja", title: "Wood Table", material: "Kayu Jati", image: "/catalog/rst-31.jpg" },
+  { ref: "RST-32", category: "Restoran", subCategory: "Meja", title: "Wood Table", material: "Kayu Jati", image: "/catalog/rst-32.jpg" },
+  { ref: "RST-33", category: "Restoran", subCategory: "Meja", title: "Wood Table", material: "Kayu Jati", image: "/catalog/rst-33.jpg" },
+  { ref: "RST-34", category: "Restoran", subCategory: "Meja", title: "Wood Table", material: "Kayu Jati", image: "/catalog/rst-34.jpg" },
+  { ref: "RST-35", category: "Restoran", subCategory: "Meja", title: "Wood Table", material: "Kayu Jati", image: "/catalog/rst-35.jpg" },
+  { ref: "RST-36", category: "Restoran", subCategory: "Meja", title: "Wood Table", material: "Kayu Jati", image: "/catalog/rst-36.jpg" },
+  { ref: "RST-37", category: "Restoran", subCategory: "Meja", title: "Wood & Steel Table", material: "Besi + Kayu Jati", image: "/catalog/rst-37.jpg" },
+  { ref: "RST-38", category: "Restoran", subCategory: "Meja", title: "Wood & Steel Table", material: "Besi + Kayu Jati", image: "/catalog/rst-38.jpg" },
+  { ref: "RST-39", category: "Restoran", subCategory: "Meja Modular", title: "Wood & Steel Table", material: "Besi + Kayu Jati", image: "/catalog/rst-39.jpg" },
+  { ref: "RST-40", category: "Restoran", subCategory: "Meja Modular", title: "Wood & Steel Table", material: "Besi + Kayu Jati", image: "/catalog/rst-40.jpg" },
+  { ref: "RST-41", category: "Restoran", subCategory: "Meja Modular", title: "Wood Table", material: "Kayu Jati", image: "/catalog/rst-41.jpg" },
+  { ref: "RST-42", category: "Restoran", subCategory: "Meja Modular", title: "Wood Table", material: "Kayu Jati", image: "/catalog/rst-42.jpg" },
+  { ref: "RST-43", category: "Restoran", subCategory: "Meja Kopi", title: "Wood & Rattan Table", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-43.jpg" },
+  { ref: "RST-44", category: "Restoran", subCategory: "Meja Kopi", title: "Wood & Rattan Table", material: "Rotan Alami + Kayu Jati", image: "/catalog/rst-44.jpg" },
+  { ref: "RST-45", category: "Restoran", subCategory: "Meja Kopi", title: "Wood & Rattan Table", material: "Kayu Jati", image: "/catalog/rst-45.jpg" },
+  { ref: "OUT-01", category: "KolamRenang", subCategory: "Sunbed", title: "Wood Lounger", material: "Kayu Jati", image: "/catalog/out-01.jpg" },
+  { ref: "OUT-02", category: "KolamRenang", subCategory: "Sunbed", title: "Wood Lounger", material: "Kayu Jati", image: "/catalog/out-02.jpg" },
+  { ref: "OUT-03", category: "KolamRenang", subCategory: "Sunbed", title: "Wood Lounger", material: "Kayu Jati", image: "/catalog/out-03.jpg" },
+  { ref: "OUT-04", category: "KolamRenang", subCategory: "Sunbed", title: "Wood Lounger", material: "Kayu Jati", image: "/catalog/out-04.jpg" },
+  { ref: "OUT-05", category: "KolamRenang", subCategory: "Sunbed", title: "Wood Lounger", material: "Kayu Jati", image: "/catalog/out-05.jpg" },
+  { ref: "OUT-06", category: "KolamRenang", subCategory: "Sunbed", title: "Wood Lounger", material: "Kayu Jati", image: "/catalog/out-06.jpg" },
+  { ref: "OUT-07", category: "KolamRenang", subCategory: "Payung", title: "Wood Umbrella", material: "Kayu Jati", image: "/catalog/out-07.jpg" },
+  { ref: "OUT-08", category: "KolamRenang", subCategory: "Payung", title: "Wood Umbrella", material: "Kayu Jati", image: "/catalog/out-08.jpg" },
+  { ref: "OUT-09", category: "KolamRenang", subCategory: "Payung", title: "Wood Umbrella", material: "Kayu Jati", image: "/catalog/out-09.jpg" },
+  { ref: "LMP-01", category: "Lampu", subCategory: "Table Lamp", title: "Wood Lamp", material: "Kayu Jati", image: "/catalog/lmp-01.jpg" },
+  { ref: "LMP-02", category: "Lampu", subCategory: "Table Lamp", title: "Wood Lamp", material: "Kayu Jati", image: "/catalog/lmp-02.jpg" },
+  { ref: "LMP-03", category: "Lampu", subCategory: "Table Lamp", title: "Wood Lamp", material: "Kayu Jati", image: "/catalog/lmp-03.jpg" },
+  { ref: "LMP-04", category: "Lampu", subCategory: "Table Lamp", title: "Wood Lamp", material: "Kayu Jati", image: "/catalog/lmp-04.jpg" },
+  { ref: "LMP-05", category: "Lampu", subCategory: "Standing Lamp", title: "Wood Lamp", material: "Kayu Jati", image: "/catalog/lmp-05.jpg" },
+  { ref: "LMP-06", category: "Lampu", subCategory: "Standing Lamp", title: "Wood Lamp", material: "Kayu Jati", image: "/catalog/lmp-06.jpg" },
+  { ref: "LMP-07", category: "Lampu", subCategory: "Standing Lamp", title: "Wood Lamp", material: "Kayu Jati", image: "/catalog/lmp-07.jpg" },
+  { ref: "LMP-08", category: "Lampu", subCategory: "Standing Lamp", title: "Wood Lamp", material: "Kayu Jati", image: "/catalog/lmp-08.jpg" },
+  { ref: "LMP-09", category: "Lampu", subCategory: "Standing Lamp", title: "Wood Lamp", material: "Kayu Jati", image: "/catalog/lmp-09.jpg" },
+  { ref: "ROO-01", category: "InRoom", subCategory: "Dipan", title: "Wood Bed Frame", material: "Kayu Jati", image: "/catalog/roo-01.jpg" },
+  { ref: "ROO-02", category: "InRoom", subCategory: "Dipan", title: "Wood Bed Frame", material: "Kayu Jati", image: "/catalog/roo-02.jpg" },
+  { ref: "ROO-03", category: "InRoom", subCategory: "Dipan", title: "Wood Bed Frame", material: "Kayu Jati", image: "/catalog/roo-03.jpg" },
+  { ref: "ROO-04", category: "InRoom", subCategory: "Dipan", title: "Wood & Rattan Bed", material: "Rotan Alami + Kayu Jati", image: "/catalog/roo-04.jpg" },
+  { ref: "ROO-05", category: "InRoom", subCategory: "Dipan", title: "Wood & Rattan Bed", material: "Rotan Alami + Kayu Jati", image: "/catalog/roo-05.jpg" },
+  { ref: "ROO-06", category: "InRoom", subCategory: "TV Cabinet", title: "Wood Cabinet", material: "Rotan Alami + Kayu Jati", image: "/catalog/roo-06.jpg" },
+  { ref: "ROO-07", category: "InRoom", subCategory: "TV Cabinet", title: "Wood Cabinet", material: "Rotan Alami + Kayu Jati", image: "/catalog/roo-07.jpg" },
+  { ref: "ROO-08", category: "InRoom", subCategory: "TV Cabinet", title: "Wood Cabinet", material: "Rotan Alami + Kayu Jati", image: "/catalog/roo-08.jpg" },
+  { ref: "ROO-09", category: "InRoom", subCategory: "TV Cabinet", title: "Wood Cabinet", material: "Kayu Jati", image: "/catalog/roo-09.jpg" },
+  { ref: "ROO-10", category: "InRoom", subCategory: "Lemari", title: "Wood Wardrobe", material: "Rotan Alami + Kayu Jati", image: "/catalog/roo-10.jpg" },
+  { ref: "ROO-11", category: "InRoom", subCategory: "Lemari", title: "Wood Wardrobe", material: "Rotan Alami + Kayu Jati", image: "/catalog/roo-11.jpg" },
+  { ref: "ROO-12", category: "InRoom", subCategory: "Lemari", title: "Wood Wardrobe", material: "Rotan Alami + Kayu Jati", image: "/catalog/roo-12.jpg" },
+  { ref: "ROO-13", category: "InRoom", subCategory: "Rak Baju", title: "Wood Hanger", material: "Kayu Jati", image: "/catalog/roo-13.jpg" },
+  { ref: "ROO-14", category: "InRoom", subCategory: "Rak Sepatu", title: "Wood Organizer", material: "Kayu Jati", image: "/catalog/roo-14.jpg" },
+  { ref: "ROO-15", category: "InRoom", subCategory: "Rak Sepatu", title: "Wood Organizer", material: "Kayu Jati", image: "/catalog/roo-15.jpg" },
+  { ref: "ROO-16", category: "InRoom", subCategory: "Gantungan", title: "Wood Hanger", material: "Kayu Jati", image: "/catalog/roo-16.jpg" },
+  { ref: "ROO-17", category: "InRoom", subCategory: "Gantungan", title: "Wood Hanger", material: "Kayu Jati", image: "/catalog/roo-17.jpg" },
+  { ref: "ROO-18", category: "InRoom", subCategory: "Gantungan", title: "Wood Hanger", material: "Kayu Jati", image: "/catalog/roo-18.jpg" },
+  { ref: "ROO-19", category: "InRoom", subCategory: "Nakas", title: "Wood Side Table", material: "Kayu Jati", image: "/catalog/roo-19.jpg" },
+  { ref: "ROO-20", category: "InRoom", subCategory: "Nakas", title: "Wood Side Table", material: "Kayu Jati", image: "/catalog/roo-20.jpg" },
+  { ref: "ROO-21", category: "InRoom", subCategory: "Nakas", title: "Wood Side Table", material: "Rotan Alami + Kayu Jati", image: "/catalog/roo-21.jpg" },
+  { ref: "ROO-22", category: "InRoom", subCategory: "Nakas", title: "Wood Side Table", material: "Rotan Alami + Kayu Jati", image: "/catalog/roo-22.jpg" },
+  { ref: "ROO-23", category: "InRoom", subCategory: "Cermin", title: "Wood Mirror", material: "Kayu Jati", image: "/catalog/roo-23.jpg" },
+  { ref: "ROO-24", category: "InRoom", subCategory: "Cermin", title: "Wood Mirror", material: "Kayu Jati", image: "/catalog/roo-24.jpg" },
+  { ref: "ROO-25", category: "InRoom", subCategory: "Cermin", title: "Wood Mirror", material: "Kayu Jati", image: "/catalog/roo-25.jpg" },
+  { ref: "ROO-26", category: "InRoom", subCategory: "Tempat Sampah", title: "Wood Bin", material: "Kayu Jati", image: "/catalog/roo-26.jpg" },
+  { ref: "ROO-27", category: "InRoom", subCategory: "Tempat Sampah", title: "Wood & Rattan Bin", material: "Rotan Alami + Kayu Jati", image: "/catalog/roo-27.jpg" },
 ];

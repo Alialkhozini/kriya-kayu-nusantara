@@ -10,27 +10,27 @@ const Craftsmanship = () => {
     {
       title: t('craftsmanship.p1_title'),
       description: t('craftsmanship.p1_desc'),
-      image: "https://images.unsplash.com/photo-1572085313466-6710de8d7ba3?q=80&w=800"
+      image: "/img/joinery-detail.jpg"
     },
     {
       title: t('craftsmanship.p2_title'),
       description: t('craftsmanship.p2_desc'),
-      image: "https://images.unsplash.com/photo-1616423640778-28d1b53229bd?q=80&w=800"
+      image: "/img/workshop-sanding.jpg"
     },
     {
       title: t('craftsmanship.p3_title'),
       description: t('craftsmanship.p3_desc'),
-      image: "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?q=80&w=800"
+      image: "/img/workshop-daybed.jpg"
     },
     {
       title: t('craftsmanship.p4_title'),
       description: t('craftsmanship.p4_desc'),
-      image: "https://images.unsplash.com/photo-1520699049698-acd2fce18736?q=80&w=800"
+      image: "/img/workshop-weaving.jpg"
     },
     {
       title: t('craftsmanship.p5_title'),
       description: t('craftsmanship.p5_desc'),
-      image: "https://images.unsplash.com/photo-1595514535415-8473c3cb4529?q=80&w=800"
+      image: "/img/rattan-cabinet-detail.jpg"
     }
   ];
 
