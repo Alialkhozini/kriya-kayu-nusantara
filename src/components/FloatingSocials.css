@@ -60,6 +60,14 @@
   transform: scale(1.15) translateY(-3px);
 }
 
+.social-btn svg {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.social-btn:hover svg {
+  transform: scale(1.15);
+}
+
 /* Adjust for mobile to not obstruct too much content */
 @media (max-width: 768px) {
   .floating-socials {
@@ -104,13 +112,13 @@
 }
 
 .social-btn.social-btn--tiktok {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #000000;
 }
 .social-btn.social-btn--tiktok:hover {
-  background-color: #222222;
-  color: #ffffff;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(0, 0, 0, 0.15);
+  background-color: #f5f5f5;
+  color: #000000;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 0 0 4px rgba(0, 0, 0, 0.05);
 }
 
 .social-btn.social-btn--instagram {
