@@ -16,6 +16,7 @@
   /* Text sitting on a darkened photograph. Deliberately NOT redefined for
      dark mode — the overlay is dark in both themes, so this must not flip. */
   --c-on-media: #D4C7B8;
+  --c-overlay-mid: rgba(20, 15, 10, 0.65); /* Dark overlay for text readability on banners */
 
   /* Typography */
   --font-heading: 'Playfair Display', serif;
