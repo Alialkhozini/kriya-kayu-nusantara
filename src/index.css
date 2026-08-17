@@ -50,7 +50,7 @@
   --bg-white: var(--c-bg-white);
   --text-primary: var(--c-text-main);
   --text-secondary: var(--c-text-muted);
-  --text-light: var(--c-bg-white);
+  --text-light: var(--c-text-inverse, var(--c-bg-white));
   --accent-brown: var(--c-primary);
   --accent-gold: var(--c-accent);
   --border: var(--c-border);

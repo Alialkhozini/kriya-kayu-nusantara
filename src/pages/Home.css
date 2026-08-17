@@ -32,11 +32,11 @@
   position: relative;
   z-index: 1;
   max-width: 800px;
-  color: var(--c-bg-white);
+  color: var(--text-light);
 }
 
 .hero-title {
-  color: var(--c-bg-white);
+  color: var(--text-light);
   font-size: 4rem;
   margin-bottom: var(--space-md);
 }

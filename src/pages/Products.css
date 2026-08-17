@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--c-bg-white);
+  color: var(--text-light);
 }
 
 .products-hero-overlay {
@@ -43,7 +43,7 @@
 
 .products-hero-content h1 {
   font-size: 3.25rem;
-  color: var(--c-bg-white);
+  color: var(--text-light);
   margin-bottom: 0.75rem;
 }
 
