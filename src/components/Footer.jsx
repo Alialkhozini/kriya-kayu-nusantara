@@ -41,9 +41,7 @@ const Footer = () => {
           <h4>{t('footer.company')}</h4>
           <ul>
             <li><Link to="/about">{t('navbar.about')}</Link></li>
-            <li><Link to="/craftsmanship">{t('navbar.craftsmanship')}</Link></li>
-            <li><Link to="/projects">{t('navbar.projects')}</Link></li>
-            <li><Link to="/contact">{t('navbar.contact')}</Link></li>
+            <li><Link to="/craftsmanship">{t('navbar.craftsmanship')}</Link></li>            <li><Link to="/contact">{t('navbar.contact')}</Link></li>
           </ul>
         </div>
 
@@ -55,7 +53,7 @@ const Footer = () => {
             <Mail size={16} /> project.kriyakayunusantara@gmail.com
           </p>
           <p className="contact-detail">
-            WhatsApp: +62 851-8461-1918
+            WhatsApp: +62 851-9844-8838
           </p>
         </div>
       </div>

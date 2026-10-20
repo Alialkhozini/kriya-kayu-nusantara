@@ -56,9 +56,9 @@ const Contact = () => {
               
               <div className="info-block">
                 <h3>📞 {t('contact.phone')}</h3>
-                <p>+62 851-8461-1918</p>
+                <p>+62 851-9844-8838</p>
                 <Button 
-                  href="https://wa.me/6285184611918" 
+                  href="https://wa.me/6285198448838" 
                   target="_blank" 
                   className="whatsapp-btn mt-sm"
                 >

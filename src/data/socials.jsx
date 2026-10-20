@@ -100,7 +100,7 @@ export const socials = [
   {
     key: 'whatsapp',
     label: 'WhatsApp',
-    href: 'https://wa.me/6285184611918',
+    href: 'https://wa.me/6285198448838',
     Icon: WhatsAppIcon
   },
   {

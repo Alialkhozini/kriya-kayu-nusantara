@@ -6,7 +6,6 @@ import About from './pages/About';
 import Craftsmanship from './pages/Craftsmanship';
 import Products from './pages/Products';
 import Services from './pages/Services';
-import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import FloatingSocials from './components/FloatingSocials';
 import ScrollToTop from './components/ScrollToTop';
@@ -24,7 +23,6 @@ function App() {
             <Route path="/craftsmanship" element={<Craftsmanship />} />
             <Route path="/products" element={<Products />} />
             <Route path="/services" element={<Services />} />
-            <Route path="/projects" element={<Projects />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>

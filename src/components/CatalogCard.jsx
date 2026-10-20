@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './CatalogCard.css';
 
-const WA_NUMBER = '6285184611918';
+const WA_NUMBER = '6285198448838';
 
 /**
  * Catalog piece card — editorial furniture-catalogue style.

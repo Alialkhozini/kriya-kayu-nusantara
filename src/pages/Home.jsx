@@ -104,7 +104,7 @@ const Home = () => {
                           <h1 className="hero-title">{slide.title}</h1>
                           <p className="hero-subtitle">{slide.subtitle}</p>
                           <div className="hero-ctas">
-                            <Button href="https://wa.me/6285184611918" target="_blank">{t('home.cta_discuss')}</Button>
+                            <Button href="https://wa.me/6285198448838" target="_blank">{t('home.cta_discuss')}</Button>
                             <Button variant="outline" href="#catalog">{t('home.cta_explore')}</Button>
                           </div>
                         </motion.div>
@@ -257,7 +257,7 @@ const Home = () => {
         <AnimatedSection className="container final-cta" yOffset={30}>
           <h2 className="text-light mb-sm">{t('home.final_title')}</h2>
           <p className="text-light mb-md">{t('home.final_desc')}</p>
-          <Button href="https://wa.me/6285184611918" target="_blank" variant="on-primary">
+          <Button href="https://wa.me/6285198448838" target="_blank" variant="on-primary">
             {t('home.final_btn')}
           </Button>
         </AnimatedSection>

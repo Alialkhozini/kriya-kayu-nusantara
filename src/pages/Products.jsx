@@ -43,7 +43,7 @@ const Products = () => {
       <section className="catalog-note-bar">
         <div className="container catalog-note">
           <p>{t('products.catalog_note')}</p>
-          <Button href="https://wa.me/6285184611918" target="_blank">
+          <Button href="https://wa.me/6285198448838" target="_blank">
             {t('products.catalog_cta')}
           </Button>
         </div>

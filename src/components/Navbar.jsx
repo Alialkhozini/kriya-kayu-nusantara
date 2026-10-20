@@ -61,9 +61,7 @@ const Navbar = () => {
           <NavLink to="/about" onClick={() => setIsOpen(false)}>{t('navbar.about')}</NavLink>
           <NavLink to="/craftsmanship" onClick={() => setIsOpen(false)}>{t('navbar.craftsmanship')}</NavLink>
           <NavLink to="/products" onClick={() => setIsOpen(false)}>{t('navbar.products')}</NavLink>
-          <NavLink to="/services" onClick={() => setIsOpen(false)}>{t('navbar.services')}</NavLink>
-          <NavLink to="/projects" onClick={() => setIsOpen(false)}>{t('navbar.projects')}</NavLink>
-          <NavLink to="/contact" className="btn-contact" onClick={() => setIsOpen(false)}>{t('navbar.contact')}</NavLink>
+          <NavLink to="/services" onClick={() => setIsOpen(false)}>{t('navbar.services')}</NavLink>          <NavLink to="/contact" className="btn-contact" onClick={() => setIsOpen(false)}>{t('navbar.contact')}</NavLink>
         </div>
 
         <div className="navbar-actions">
