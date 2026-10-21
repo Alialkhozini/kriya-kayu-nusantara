@@ -45,12 +45,18 @@
 
 .navbar--transparent .icon-btn,
 .navbar--transparent .mobile-menu-btn {
-  color: #ffffff;
+  color: var(--c-secondary, #D4C7B8);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
+.navbar--transparent .icon-btn:hover,
+.navbar--transparent .mobile-menu-btn:hover {
+  color: #ffffff !important;
+  opacity: 1;
+}
+
 .navbar--transparent .toggle-divider {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(212, 199, 184, 0.45);
 }
 
 /* Logo in transparent mode: light logo visible, dark logo hidden */
@@ -117,21 +123,31 @@
 
 .navbar--solid .icon-btn,
 .navbar--solid .mobile-menu-btn {
-  color: #222222;
+  color: var(--c-primary, #40311D);
   text-shadow: none;
+}
+
+.navbar--solid .icon-btn:hover,
+.navbar--solid .mobile-menu-btn:hover {
+  color: #2A2013 !important;
 }
 
 [data-theme="dark"] .navbar--solid .icon-btn,
 [data-theme="dark"] .navbar--solid .mobile-menu-btn {
-  color: #EDE6DC;
+  color: var(--c-secondary, #D4C7B8);
+}
+
+[data-theme="dark"] .navbar--solid .icon-btn:hover,
+[data-theme="dark"] .navbar--solid .mobile-menu-btn:hover {
+  color: #ffffff !important;
 }
 
 .navbar--solid .toggle-divider {
-  background-color: rgba(0, 0, 0, 0.12);
+  background-color: rgba(64, 49, 29, 0.25);
 }
 
 [data-theme="dark"] .navbar--solid .toggle-divider {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(212, 199, 184, 0.3);
 }
 
 /* Logo in solid mode: dark logo visible in light mode, light logo in dark mode */
