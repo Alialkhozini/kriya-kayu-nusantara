@@ -511,3 +511,63 @@
   width: 24px;
   border-radius: 4px;
 }
+
+/* ================= HERO VIDEO SLIDE STYLES ================= */
+.hero-slide-video {
+  position: relative;
+  overflow: hidden;
+  background-color: #120e0a;
+}
+
+.hero-video-element {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%) translateZ(0);
+  object-fit: cover;
+  will-change: transform;
+  backface-visibility: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-sound-toggle {
+  position: absolute;
+  bottom: 2.25rem;
+  right: 2.5rem;
+  z-index: 25;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.hero-sound-toggle:hover {
+  background: rgba(0, 0, 0, 0.85);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .hero-sound-toggle {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    padding: 6px 12px;
+    font-size: 0.72rem;
+  }
+}

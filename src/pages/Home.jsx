@@ -36,7 +36,18 @@ const Home = () => {
     setBlogs(getStoredBlogs());
   }, []);
 
+  const [swiperInstance, setSwiperInstance] = React.useState(null);
+  const [isVideoMuted, setIsVideoMuted] = React.useState(true);
+  const [activeSlideIndex, setActiveSlideIndex] = React.useState(0);
+  const videoRef = React.useRef(null);
+
   const heroSlides = [
+    {
+      isVideo: true,
+      videoSrc: '/videobanner/Kriyakayu.mp4',
+      title: t('home.hero1_title'),
+      subtitle: t('home.hero1_subtitle')
+    },
     {
       image: '/img/restaurant-interior.jpg',
       title: t('home.hero1_title'),
@@ -53,6 +64,52 @@ const Home = () => {
       subtitle: t('home.hero3_subtitle')
     }
   ];
+
+  const handleSlideChange = (swiper) => {
+    const realIdx = swiper.realIndex;
+    setActiveSlideIndex(realIdx);
+    if (realIdx === 0) {
+      if (swiper.autoplay) {
+        swiper.autoplay.stop();
+      }
+      if (videoRef.current) {
+        videoRef.current.currentTime = 0;
+        videoRef.current.play().catch(() => {});
+      }
+    } else {
+      if (videoRef.current) {
+        videoRef.current.pause();
+      }
+      if (swiper.autoplay) {
+        swiper.autoplay.start();
+      }
+    }
+  };
+
+  const handleVideoEnded = () => {
+    if (swiperInstance) {
+      swiperInstance.slideNext();
+      if (swiperInstance.autoplay) {
+        swiperInstance.autoplay.start();
+      }
+    }
+  };
+
+  // Safety timer: after 21s on slide 0, advance to next slide if not already advanced
+  React.useEffect(() => {
+    let timer;
+    if (activeSlideIndex === 0 && swiperInstance) {
+      timer = setTimeout(() => {
+        if (swiperInstance && swiperInstance.realIndex === 0) {
+          swiperInstance.slideNext();
+          if (swiperInstance.autoplay) {
+            swiperInstance.autoplay.start();
+          }
+        }
+      }, 21000);
+    }
+    return () => clearTimeout(timer);
+  }, [activeSlideIndex, swiperInstance]);
 
   const collections = categories
     .filter((c) => c.id !== 'All')
@@ -80,7 +137,7 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Hero Section with Smooth Swiper Carousel and Animated Text */}
+      {/* Hero Section with Smooth Swiper Carousel, Video Intro, and Animated Text */}
       <section className="hero-section">
         <Swiper
           modules={[Pagination, Autoplay, EffectFade]}
@@ -90,14 +147,59 @@ const Home = () => {
           autoplay={{ delay: 6000, disableOnInteraction: false }}
           loop={true}
           className="hero-swiper"
+          onSwiper={(swiper) => {
+            setSwiperInstance(swiper);
+            if (swiper.autoplay) {
+              swiper.autoplay.stop();
+            }
+          }}
+          onSlideChange={handleSlideChange}
         >
           {heroSlides.map((slide, index) => (
             <SwiperSlide key={index}>
               {({ isActive }) => (
                 <div
-                  className="hero-slide-bg"
-                  style={{ backgroundImage: `url(${slide.image})` }}
+                  className={`hero-slide-bg ${slide.isVideo ? 'hero-slide-video' : ''}`}
+                  style={slide.isVideo ? {} : { backgroundImage: `url(${slide.image})` }}
                 >
+                  {slide.isVideo && (
+                    <>
+                      <video
+                        ref={videoRef}
+                        src={slide.videoSrc}
+                        className="hero-video-element"
+                        autoPlay
+                        muted={isVideoMuted}
+                        playsInline
+                        preload="auto"
+                        onEnded={handleVideoEnded}
+                      />
+                      <button
+                        type="button"
+                        className="hero-sound-toggle"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsVideoMuted(!isVideoMuted);
+                        }}
+                        aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
+                        title={isVideoMuted ? "Aktifkan Suara" : "Bisukan"}
+                      >
+                        {isVideoMuted ? (
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <line x1="23" y1="9" x2="17" y2="15"></line>
+                            <line x1="17" y1="9" x2="23" y2="15"></line>
+                          </svg>
+                        ) : (
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                          </svg>
+                        )}
+                        <span className="sound-toggle-text">{isVideoMuted ? "Muted" : "Sound On"}</span>
+                      </button>
+                    </>
+                  )}
                   <div className="hero-overlay"></div>
                   <div className="container hero-content">
                     <AnimatePresence>
