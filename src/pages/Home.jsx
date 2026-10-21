@@ -181,24 +181,26 @@ const Home = () => {
                     </>
                   )}
                   <div className="hero-overlay"></div>
-                  <div className="container hero-content">
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 40 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -40 }}
-                          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                        >
-                          <h1 className="hero-title">{slide.title}</h1>
-                          <p className="hero-subtitle">{slide.subtitle}</p>
-                          <div className="hero-ctas">
-                            <Button href="https://wa.me/6285198448838" target="_blank">{t('home.cta_discuss')}</Button>
-                            <Button variant="outline" href="#catalog">{t('home.cta_explore')}</Button>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                  <div className="container hero-container">
+                    <div className="hero-content">
+                      <AnimatePresence>
+                        {isActive && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -40 }}
+                            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                          >
+                            <h1 className="hero-title">{slide.title}</h1>
+                            <p className="hero-subtitle">{slide.subtitle}</p>
+                            <div className="hero-ctas">
+                              <Button href="https://wa.me/6285198448838" target="_blank">{t('home.cta_discuss')}</Button>
+                              <Button variant="outline" href="#catalog">{t('home.cta_explore')}</Button>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
                   </div>
                 </div>
               )}
