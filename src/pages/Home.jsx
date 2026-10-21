@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay, EffectFade } from 'swiper/modules';
+import { Pagination, Autoplay, Navigation } from 'swiper/modules';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import AnimatedSection from '../components/AnimatedSection';
@@ -16,7 +16,7 @@ import { getStoredBlogs } from '../data/blogs';
 // Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
 import './Home.css';
 import './Blog.css';
 
@@ -37,7 +37,6 @@ const Home = () => {
   }, []);
 
   const [swiperInstance, setSwiperInstance] = React.useState(null);
-  const [isVideoMuted, setIsVideoMuted] = React.useState(true);
   const [activeSlideIndex, setActiveSlideIndex] = React.useState(0);
   const videoRef = React.useRef(null);
 
@@ -45,8 +44,8 @@ const Home = () => {
     {
       isVideo: true,
       videoSrc: '/videobanner/Kriyakayu.mp4',
-      title: t('home.hero1_title'),
-      subtitle: t('home.hero1_subtitle')
+      title: t('home.hero_video_title'),
+      subtitle: t('home.hero_video_subtitle')
     },
     {
       image: '/img/restaurant-interior.jpg',
@@ -140,13 +139,18 @@ const Home = () => {
       {/* Hero Section with Smooth Swiper Carousel, Video Intro, and Animated Text */}
       <section className="hero-section">
         <Swiper
-          modules={[Pagination, Autoplay, EffectFade]}
-          effect="fade"
-          speed={1500}
-          pagination={{ clickable: true }}
+          modules={[Pagination, Autoplay, Navigation]}
+          speed={1200}
+          pagination={{ el: '.hero-pagination-custom', clickable: true }}
+          navigation={{ prevEl: '.hero-btn-prev', nextEl: '.hero-btn-next' }}
           autoplay={{ delay: 6000, disableOnInteraction: false }}
           loop={true}
           className="hero-swiper"
+          onBeforeInit={(swiper) => {
+            swiper.params.navigation.prevEl = '.hero-btn-prev';
+            swiper.params.navigation.nextEl = '.hero-btn-next';
+            swiper.params.pagination.el = '.hero-pagination-custom';
+          }}
           onSwiper={(swiper) => {
             setSwiperInstance(swiper);
             if (swiper.autoplay) {
@@ -169,35 +173,11 @@ const Home = () => {
                         src={slide.videoSrc}
                         className="hero-video-element"
                         autoPlay
-                        muted={isVideoMuted}
+                        muted
                         playsInline
                         preload="auto"
                         onEnded={handleVideoEnded}
                       />
-                      <button
-                        type="button"
-                        className="hero-sound-toggle"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsVideoMuted(!isVideoMuted);
-                        }}
-                        aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
-                        title={isVideoMuted ? "Aktifkan Suara" : "Bisukan"}
-                      >
-                        {isVideoMuted ? (
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                            <line x1="23" y1="9" x2="17" y2="15"></line>
-                            <line x1="17" y1="9" x2="23" y2="15"></line>
-                          </svg>
-                        ) : (
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                          </svg>
-                        )}
-                        <span className="sound-toggle-text">{isVideoMuted ? "Muted" : "Sound On"}</span>
-                      </button>
                     </>
                   )}
                   <div className="hero-overlay"></div>
@@ -225,6 +205,35 @@ const Home = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+
+        {/* Hero Bottom Bar: Pagination Dots on Bottom-Left, Manual Nav Buttons on Bottom-Right */}
+        <div className="hero-bottom-bar">
+          <div className="container hero-bottom-container">
+            <div className="hero-pagination-custom"></div>
+            <div className="hero-nav-controls">
+              <button
+                type="button"
+                className="hero-nav-btn hero-btn-prev"
+                aria-label="Previous Slide"
+                title="Slide Sebelumnya"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button
+                type="button"
+                className="hero-nav-btn hero-btn-next"
+                aria-label="Next Slide"
+                title="Slide Berikutnya"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Brand Introduction */}

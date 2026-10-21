@@ -15,8 +15,8 @@
     "admin_desc": "Masuk dashboard admin"
   },
   "home": {
-    "hero1_title": "Premium Custom Teak Furniture Manufacturer",
-    "hero1_subtitle": "Bringing your interior design vision to life with the beauty of selected teak wood and authentic craftsmanship.",
+    "hero1_title": "Bespoke Elegance for Discerning Spaces",
+    "hero1_subtitle": "A harmonious blend of solid teak elegance and modern design precision, delivering timeless luxury to every corner of your space.",
     "hero2_title": "Authentic Indonesian Craftsmanship",
     "hero2_subtitle": "The touch of expert artisans producing high-value artistic furniture for your luxury home.",
     "hero3_title": "Elevate Your Hospitality Project",
@@ -75,7 +75,9 @@
     "w5_desc": "Secure delivery and professional installation at your project site.",
     "blog_title": "Articles and Trends",
     "blog_subtitle": "Explore the latest developments in modern architectural envelopes, glass curtain wall engineering, and authentic teak craftsmanship.",
-    "blog_view_more": "View More Articles"
+    "blog_view_more": "View More Articles",
+    "hero_video_title": "Premium Custom Teak Furniture Manufacturer",
+    "hero_video_subtitle": "Bringing your interior design vision to life with the beauty of selected teak wood and authentic craftsmanship."
   },
   "about": {
     "hero_title": "Our Story",

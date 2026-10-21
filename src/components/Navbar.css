@@ -64,8 +64,9 @@
 
 /* ================= SOLID STATE (SCROLLED DOWN - GAMBAR 2) ================= */
 .navbar--solid {
-  background-color: #ffffff;
-  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06);
+  background-color: #F7F4EF;
+  border-bottom: 1px solid rgba(140, 90, 53, 0.1);
+  box-shadow: 0 2px 14px rgba(44, 30, 22, 0.06);
   padding: 0.85rem 0;
 }
 
@@ -260,7 +261,7 @@
   top: calc(100% + 14px);
   right: 0;
   min-width: 240px;
-  background-color: var(--c-bg-light, #ffffff);
+  background-color: #F7F4EF;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15);
@@ -428,7 +429,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: var(--c-bg-light, #ffffff);
+    background-color: #F7F4EF;
     padding: 1.75rem 2rem 2.5rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
     gap: 1.25rem;

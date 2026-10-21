@@ -338,18 +338,7 @@
   font-size: 1.25rem;
 }
 
-/* Swiper pagination — default is iOS blue, which is off-palette */
-.hero-swiper .swiper-pagination-bullet {
-  background-color: #FFFFFF;
-  opacity: 0.45;
-  transition: opacity var(--transition-normal), transform var(--transition-normal);
-}
 
-.hero-swiper .swiper-pagination-bullet-active {
-  background-color: var(--c-secondary);
-  opacity: 1;
-  transform: scale(1.25);
-}
 
 /* Responsive */
 @media (max-width: 992px) {
@@ -535,39 +524,123 @@
   z-index: 0;
 }
 
-.hero-sound-toggle {
-  position: absolute;
-  bottom: 2.25rem;
-  right: 2.5rem;
-  z-index: 25;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  padding: 8px 16px;
-  border-radius: 9999px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.4px;
-  cursor: pointer;
-  transition: all 0.25s ease;
+
+
+
+
+@media (max-width: 768px) {
+  
 }
 
-.hero-sound-toggle:hover {
-  background: rgba(0, 0, 0, 0.85);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-2px);
+/* ================= HERO BOTTOM BAR (PAGINATION & MANUAL NAVIGATION) ================= */
+.hero-bottom-bar {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 0;
+  width: 100%;
+  z-index: 25;
+  pointer-events: none;
+}
+
+.hero-bottom-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* Pagination Dots on Bottom-Left */
+.hero-pagination-custom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+  user-select: none;
+  width: auto;
+}
+
+.hero-pagination-custom .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff;
+  opacity: 0.5;
+  border-radius: 50%;
+  margin: 0 !important;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+}
+
+.hero-pagination-custom .swiper-pagination-bullet:hover {
+  opacity: 0.85;
+}
+
+.hero-pagination-custom .swiper-pagination-bullet-active {
+  background-color: #ffffff;
+  opacity: 1;
+  transform: scale(1.4);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+/* Manual Navigation Controls on Bottom-Right */
+.hero-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.hero-nav-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(18, 14, 10, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+}
+
+.hero-nav-btn:hover {
+  background: var(--c-primary, #6b4423);
+  border-color: rgba(255, 255, 255, 0.6);
+  color: #ffffff;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.hero-nav-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.hero-nav-btn.swiper-button-disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
-  .hero-sound-toggle {
-    bottom: 1.25rem;
-    right: 1.25rem;
-    padding: 6px 12px;
-    font-size: 0.72rem;
+  .hero-bottom-bar {
+    bottom: 1.5rem;
+  }
+  
+  .hero-nav-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .hero-nav-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .hero-pagination-custom .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
   }
 }

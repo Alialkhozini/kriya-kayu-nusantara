@@ -15,8 +15,8 @@
     "admin_desc": "Masuk dashboard admin"
   },
   "home": {
-    "hero1_title": "Premium Custom Teak Furniture Manufacturer",
-    "hero1_subtitle": "Mewujudkan visi desain interior Anda dengan keindahan kayu jati pilihan dan keahlian pengerjaan yang autentik.",
+    "hero1_title": "Bespoke Elegance for Discerning Spaces",
+    "hero1_subtitle": "Harmoni keanggunan kayu jati solid dan presisi desain modern, menghadirkan kemewahan abadi di setiap sudut ruangan Anda.",
     "hero2_title": "Authentic Indonesian Craftsmanship",
     "hero2_subtitle": "Sentuhan tangan pengrajin ahli yang menghasilkan furnitur bernilai seni tinggi untuk hunian mewah Anda.",
     "hero3_title": "Elevate Your Hospitality Project",
@@ -75,7 +75,9 @@
     "w5_desc": "Pengiriman aman dan instalasi profesional di lokasi proyek Anda.",
     "blog_title": "Articles and Trends",
     "blog_subtitle": "Ikuti perkembangan tren arsitektur terkini, inovasi fasad modern, dan seni pengerjaan kayu jati autentik kami.",
-    "blog_view_more": "Lihat Lebih Banyak"
+    "blog_view_more": "Lihat Lebih Banyak",
+    "hero_video_title": "Premium Custom Teak Furniture Manufacturer",
+    "hero_video_subtitle": "Mewujudkan visi desain interior Anda dengan keindahan kayu jati pilihan dan keahlian pengerjaan yang autentik."
   },
   "about": {
     "hero_title": "Our Story",
