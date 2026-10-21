@@ -6,7 +6,13 @@
     "products": "Products",
     "services": "Services",
     "projects": "Projects",
-    "contact": "Discuss Project"
+    "contact": "Kontak",
+    "more": "More",
+    "contact_desc": "Konsultasi & hubungi tim kami",
+    "blog": "Blog",
+    "blog_desc": "Artikel, wawasan industri & tren",
+    "admin": "Admin",
+    "admin_desc": "Masuk dashboard admin"
   },
   "home": {
     "hero1_title": "Premium Custom Teak Furniture Manufacturer",
@@ -66,7 +72,10 @@
     "w2_desc": "Gambar kerja teknis dan rendering 3D disiapkan hingga Anda setujui.",
     "w3_desc": "Penawaran rinci per item, lengkap dengan spesifikasi material dan finishing.",
     "w4_desc": "Produksi di workshop kami dengan laporan progress berkala dan quality control.",
-    "w5_desc": "Pengiriman aman dan instalasi profesional di lokasi proyek Anda."
+    "w5_desc": "Pengiriman aman dan instalasi profesional di lokasi proyek Anda.",
+    "blog_title": "Articles and Trends",
+    "blog_subtitle": "Ikuti perkembangan tren arsitektur terkini, inovasi fasad modern, dan seni pengerjaan kayu jati autentik kami.",
+    "blog_view_more": "Lihat Lebih Banyak"
   },
   "about": {
     "hero_title": "Our Story",

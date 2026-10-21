@@ -6,7 +6,13 @@
     "products": "Products",
     "services": "Services",
     "projects": "Projects",
-    "contact": "Discuss Project"
+    "contact": "Contact",
+    "more": "More",
+    "contact_desc": "Inquire, consult & reach our team",
+    "blog": "Blog",
+    "blog_desc": "Articles, industry insights & news",
+    "admin": "Admin",
+    "admin_desc": "Masuk dashboard admin"
   },
   "home": {
     "hero1_title": "Premium Custom Teak Furniture Manufacturer",
@@ -66,7 +72,10 @@
     "w2_desc": "Technical drawings and 3D renderings are prepared until you sign them off.",
     "w3_desc": "An itemised quotation, complete with material and finishing specifications.",
     "w4_desc": "Production in our workshop, with regular progress reports and quality control.",
-    "w5_desc": "Secure delivery and professional installation at your project site."
+    "w5_desc": "Secure delivery and professional installation at your project site.",
+    "blog_title": "Articles and Trends",
+    "blog_subtitle": "Explore the latest developments in modern architectural envelopes, glass curtain wall engineering, and authentic teak craftsmanship.",
+    "blog_view_more": "View More Articles"
   },
   "about": {
     "hero_title": "Our Story",

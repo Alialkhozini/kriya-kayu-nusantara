@@ -4,6 +4,7 @@
 
 /* Hero */
 .products-hero {
+  padding-top: 80px;
   position: relative;
   height: 46vh;
   min-height: 340px;

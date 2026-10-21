@@ -3,6 +3,7 @@
 }
 
 .craft-hero {
+  padding-top: 80px;
   position: relative;
   height: 50vh;
   min-height: 400px;

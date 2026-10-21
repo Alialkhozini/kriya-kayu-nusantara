@@ -1,103 +1,369 @@
+/* ================= MAIN NAVBAR SHELL ================= */
 .navbar {
-  background-color: var(--c-bg-light);
-  box-shadow: var(--shadow-sm);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
-  padding: 0.9rem 0;
-  transition: transform 0.3s ease-in-out, background-color var(--transition-normal), box-shadow var(--transition-normal);
+  padding: 1.15rem 0;
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.35s ease;
 }
 
-.navbar--hidden {
-  transform: translateY(-100%);
+/* ================= TRANSPARENT STATE (AT TOP BANNER - GAMBAR 1) ================= */
+.navbar--transparent {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.15) 70%, rgba(0, 0, 0, 0) 100%);
+  box-shadow: none;
+  padding: 1.25rem 0;
 }
 
-.navbar--visible {
-  transform: translateY(0);
+.navbar--transparent .navbar-links > a,
+.navbar--transparent .nav-more-btn {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  font-weight: 400;
 }
 
+.navbar--transparent .navbar-links > a:hover,
+.navbar--transparent .nav-more-btn:hover,
+.navbar--transparent .nav-more-btn.open {
+  color: #f5dfca;
+  opacity: 0.95;
+}
+
+.navbar--transparent .navbar-links > a.active,
+.navbar--transparent .nav-more-btn.active {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.navbar--transparent .more-chevron {
+  color: #ffffff;
+}
+
+.navbar--transparent .icon-btn,
+.navbar--transparent .mobile-menu-btn {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.navbar--transparent .toggle-divider {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Logo in transparent mode: light logo visible, dark logo hidden */
+.navbar--transparent .logo-light {
+  opacity: 1;
+}
+.navbar--transparent .logo-dark {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ================= SOLID STATE (SCROLLED DOWN - GAMBAR 2) ================= */
+.navbar--solid {
+  background-color: #ffffff;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06);
+  padding: 0.85rem 0;
+}
+
+[data-theme="dark"] .navbar--solid {
+  background-color: rgba(26, 22, 17, 0.98);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+}
+
+.navbar--solid .navbar-links > a,
+.navbar--solid .nav-more-btn {
+  color: #222222;
+  text-shadow: none;
+  font-weight: 400;
+}
+
+[data-theme="dark"] .navbar--solid .navbar-links > a,
+[data-theme="dark"] .navbar--solid .nav-more-btn {
+  color: #EDE6DC;
+}
+
+.navbar--solid .navbar-links > a:hover,
+.navbar--solid .nav-more-btn:hover,
+.navbar--solid .nav-more-btn.open {
+  color: var(--c-primary, #40311D);
+}
+
+[data-theme="dark"] .navbar--solid .navbar-links > a:hover,
+[data-theme="dark"] .navbar--solid .nav-more-btn:hover,
+[data-theme="dark"] .navbar--solid .nav-more-btn.open {
+  color: var(--c-primary, #C9B99F);
+}
+
+.navbar--solid .navbar-links > a.active,
+.navbar--solid .nav-more-btn.active {
+  color: var(--c-primary, #40311D);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .navbar--solid .navbar-links > a.active,
+[data-theme="dark"] .navbar--solid .nav-more-btn.active {
+  color: var(--c-primary, #C9B99F);
+  font-weight: 600;
+}
+
+.navbar--solid .more-chevron {
+  color: currentColor;
+}
+
+.navbar--solid .icon-btn,
+.navbar--solid .mobile-menu-btn {
+  color: #222222;
+  text-shadow: none;
+}
+
+[data-theme="dark"] .navbar--solid .icon-btn,
+[data-theme="dark"] .navbar--solid .mobile-menu-btn {
+  color: #EDE6DC;
+}
+
+.navbar--solid .toggle-divider {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .navbar--solid .toggle-divider {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Logo in solid mode: dark logo visible in light mode, light logo in dark mode */
+.navbar--solid .logo-light {
+  opacity: 0;
+  pointer-events: none;
+}
+.navbar--solid .logo-dark {
+  opacity: 1;
+}
+
+[data-theme="dark"] .navbar--solid .logo-light {
+  opacity: 1;
+  pointer-events: auto;
+}
+[data-theme="dark"] .navbar--solid .logo-dark {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ================= SHARED NAVBAR LAYOUT ================= */
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Full logo (mark + wordmark), swapped for dark mode. */
+/* Logo container with dual cross-fading images */
 .navbar-logo {
+  position: relative;
   display: inline-flex;
   align-items: center;
   text-decoration: none;
   flex-shrink: 0;
+  height: 52px;
 }
 
-/* The wordmark sets over three lines, so it needs height to stay legible. */
 .navbar-logo-img {
-  height: 62px;
+  height: 48px;
   width: auto;
-  max-width: 210px;
+  max-width: 200px;
   object-fit: contain;
-  transition: opacity var(--transition-normal);
+  transition: opacity 0.35s ease, height 0.35s ease;
 }
 
-@media (max-width: 768px) {
-  .navbar-logo-img {
-    height: 48px;
-    max-width: 160px;
-  }
+.navbar-logo .logo-dark {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.navbar-logo .logo-light {
+  display: block;
 }
 
 .navbar-logo:hover .navbar-logo-img {
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
+@media (max-width: 768px) {
+  .navbar-logo {
+    height: 42px;
+  }
+  .navbar-logo-img {
+    height: 40px;
+    max-width: 140px;
+  }
+}
+
+/* ================= NAV LINKS (MATCHING GAMBAR 1 & GAMBAR 2) ================= */
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1.85rem;
 }
 
 .navbar-links > a {
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.95rem; /* ~15px matching Gambar 1 & Gambar 2 */
+  font-weight: 400;
+  text-transform: none; /* Sentence / Title Case as in Gambar 1 & 2! */
+  letter-spacing: 0.1px;
   white-space: nowrap;
   position: relative;
+  text-decoration: none;
+  transition: color 0.25s ease, opacity 0.25s ease;
 }
 
-.navbar-links > a:hover,
-.navbar-links > a.active {
-  color: var(--c-primary);
+/* Clean, unboxed MORE button matching the nav links */
+.navbar-more-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
-.navbar-links > a.active::after {
-  content: '';
+.nav-more-btn {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.1px;
+  white-space: nowrap;
+  position: relative;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+.more-chevron {
+  transition: transform 0.25s ease;
+}
+
+.more-chevron.rotate {
+  transform: rotate(180deg);
+}
+
+/* ================= DROPDOWN MENU PANEL ================= */
+.more-menu-panel {
   position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--c-primary);
-  border-radius: 2px;
+  top: calc(100% + 14px);
+  right: 0;
+  min-width: 240px;
+  background-color: var(--c-bg-light, #ffffff);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+  z-index: 1050;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
 }
 
-.navbar-links a.btn-contact {
-  background-color: var(--c-primary);
-  color: #FFFFFF;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius-sm);
-  transition: background-color 0.3s ease;
+[data-theme="dark"] .more-menu-panel {
+  background-color: #241E18;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.4);
 }
 
-.navbar-links a.btn-contact.active::after {
-  display: none;
+.more-menu-panel.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
-.navbar-links a.btn-contact:hover {
-  background-color: var(--c-primary-dark);
-  color: #FFFFFF;
+.more-menu-item {
+  display: block;
+  padding: 0.65rem 0.9rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--c-text-main, #18181b) !important;
+  text-shadow: none !important;
+  transition: background-color 0.18s ease, color 0.18s ease;
+  text-align: left;
 }
 
+.more-menu-item:hover,
+.more-menu-item.active {
+  background-color: rgba(107, 68, 35, 0.08);
+}
+
+[data-theme="dark"] .more-menu-item:hover,
+[data-theme="dark"] .more-menu-item.active {
+  background-color: rgba(201, 185, 159, 0.12);
+}
+
+.menu-item-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--c-text-main, #18181b);
+  transition: color 0.18s ease;
+}
+
+[data-theme="dark"] .item-title {
+  color: #EDE6DC;
+}
+
+.more-menu-item:hover .item-title,
+.more-menu-item.active .item-title {
+  color: var(--c-primary, #40311D);
+}
+
+[data-theme="dark"] .more-menu-item:hover .item-title,
+[data-theme="dark"] .more-menu-item.active .item-title {
+  color: var(--c-primary, #C9B99F);
+}
+
+.item-desc {
+  font-size: 0.75rem;
+  color: #71717a !important;
+  text-shadow: none !important;
+  margin-top: 3px;
+  line-height: 1.25;
+}
+
+[data-theme="dark"] .item-desc {
+  color: #A99C8C !important;
+}
+
+.more-menu-divider {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.06);
+  margin: 0.35rem 0.5rem;
+}
+
+[data-theme="dark"] .more-menu-divider {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.more-menu-item.admin-item:hover {
+  background-color: rgba(37, 99, 235, 0.08);
+}
+
+.more-menu-item.admin-item:hover .item-title,
+.more-menu-item.admin-item.active .item-title {
+  color: #2563eb;
+}
+
+/* ================= ACTIONS ================= */
 .navbar-actions {
   display: flex;
   align-items: center;
@@ -113,24 +379,23 @@
 .toggle-divider {
   width: 1px;
   height: 20px;
-  background-color: rgba(128, 128, 128, 0.3);
+  transition: background-color 0.3s ease;
 }
 
 .icon-btn {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--c-text-main);
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-family: var(--font-body);
+  font-family: var(--font-body, 'Inter', sans-serif);
   font-weight: 500;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, opacity 0.25s ease;
 }
 
 .icon-btn:hover {
-  color: var(--c-primary);
+  color: var(--c-primary) !important;
 }
 
 .lang-text {
@@ -143,9 +408,10 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--c-text-main);
+  transition: color 0.3s ease;
 }
 
+/* ================= MOBILE STYLES ================= */
 @media (max-width: 992px) {
   .mobile-menu-btn {
     display: block;
@@ -162,14 +428,58 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: var(--c-bg-light);
-    padding: 2rem;
-    box-shadow: var(--shadow-md);
-    gap: 1.5rem;
+    background-color: var(--c-bg-light, #ffffff);
+    padding: 1.75rem 2rem 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    gap: 1.25rem;
     text-align: center;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
   }
 
   .navbar-links.active {
     display: flex;
+  }
+
+  .navbar-links > a,
+  .nav-more-btn {
+    color: var(--c-text-main, #18181b) !important;
+    text-shadow: none !important;
+    font-size: 1.05rem;
+  }
+
+  .navbar-more-dropdown {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-more-btn {
+    width: auto;
+    justify-content: center;
+    padding: 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .more-menu-panel {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    margin-top: 0.6rem;
+    width: 100%;
+    max-width: 280px;
+    display: none;
+  }
+
+  .more-menu-panel.visible {
+    display: block;
   }
 }

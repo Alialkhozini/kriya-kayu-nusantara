@@ -11,12 +11,14 @@ import {
   IconHotel, IconVilla, IconRestaurant, IconArchitect
 } from '../components/Icons';
 import { categories, products } from '../data/products';
+import { getStoredBlogs } from '../data/blogs';
 
 // Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 import './Home.css';
+import './Blog.css';
 
 // Cover photograph for each catalogue collection, taken from the printed catalogue.
 const COLLECTION_COVERS = {
@@ -28,6 +30,11 @@ const COLLECTION_COVERS = {
 
 const Home = () => {
   const { t, i18n } = useTranslation();
+  const [blogs, setBlogs] = React.useState([]);
+
+  React.useEffect(() => {
+    setBlogs(getStoredBlogs());
+  }, []);
 
   const heroSlides = [
     {
@@ -87,7 +94,7 @@ const Home = () => {
           {heroSlides.map((slide, index) => (
             <SwiperSlide key={index}>
               {({ isActive }) => (
-                <div 
+                <div
                   className="hero-slide-bg"
                   style={{ backgroundImage: `url(${slide.image})` }}
                 >
@@ -95,7 +102,7 @@ const Home = () => {
                   <div className="container hero-content">
                     <AnimatePresence>
                       {isActive && (
-                        <motion.div 
+                        <motion.div
                           initial={{ opacity: 0, y: 40 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -40 }}
@@ -183,8 +190,18 @@ const Home = () => {
             ))}
           </div>
 
-          <AnimatedSection className="text-center mt-xl" yOffset={20}>
-            <Button variant="secondary" href="/products">{t('home.col_btn')}</Button>
+          <AnimatedSection className="home-catalog-bottom-bar" yOffset={20}>
+            <Link to="/products" className="home-catalog-learn-more">
+              <span>{t('home.col_btn', 'View Full Catalog')}</span>
+              <div className="learn-more-arrow">
+                <span className="arrow-line"></span>
+                <span className="arrow-circle">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </span>
+              </div>
+            </Link>
           </AnimatedSection>
         </div>
       </section>
@@ -252,15 +269,96 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="section bg-primary text-center">
-        <AnimatedSection className="container final-cta" yOffset={30}>
-          <h2 className="text-light mb-sm">{t('home.final_title')}</h2>
-          <p className="text-light mb-md">{t('home.final_desc')}</p>
-          <Button href="https://wa.me/6285198448838" target="_blank" variant="on-primary">
-            {t('home.final_btn')}
-          </Button>
-        </AnimatedSection>
+      {/* Blog & Insights Auto-slider (replaced old Final CTA) */}
+      <section className="section bg-white home-blog-section">
+        <div className="container">
+          <AnimatedSection className="section-header text-center" yOffset={30}>
+            <h2 className="section-title">{t('home.blog_title', 'Articles and Trends')}</h2>
+            <p className="section-subtitle max-w-3xl mx-auto">
+              {t('home.blog_subtitle', 'Ikuti perkembangan tren arsitektur terkini, inovasi fasad modern, dan seni pengerjaan kayu jati autentik kami.')}
+            </p>
+          </AnimatedSection>
+
+          <div className="home-blog-carousel-wrap mt-lg">
+            <Swiper
+              modules={[Autoplay, Pagination]}
+              spaceBetween={28}
+              slidesPerView={1}
+              loop={blogs.length > 3}
+              autoplay={{
+                delay: 3500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+              }}
+              pagination={{
+                clickable: true,
+                el: '.home-blog-dots-container'
+              }}
+              breakpoints={{
+                640: {
+                  slidesPerView: 2,
+                  spaceBetween: 20
+                },
+                1024: {
+                  slidesPerView: 3,
+                  spaceBetween: 28
+                }
+              }}
+              className="home-blog-swiper"
+            >
+              {blogs.map((post) => (
+                <SwiperSlide key={post.id || post.slug}>
+                  <article className="blog-card home-blog-card">
+                    <div className="blog-card-header">
+                      <span className="blog-card-date">{post.date}</span>
+                    </div>
+
+                    <h3 className="blog-card-title">
+                      <Link to={`/blog/${post.slug || post.id}`}>{post.title}</Link>
+                    </h3>
+
+                    <Link to={`/blog/${post.slug || post.id}`} className="blog-card-media">
+                      <img src={post.image} alt={post.title} loading="lazy" />
+                    </Link>
+
+                    <p className="blog-card-summary">{post.summary}</p>
+
+                    <div className="blog-card-footer">
+                      <Link to={`/blog/${post.slug || post.id}`} className="blog-card-learn-more">
+                        <span>Learn More</span>
+                        <div className="learn-more-arrow">
+                          <span className="arrow-line"></span>
+                          <span className="arrow-circle">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                  </article>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            {/* Bottom Row: Text link on left, Pagination Dots on same line */}
+            <div className="home-blog-bottom-bar">
+              <Link to="/blog" className="home-blog-learn-more">
+                <span>{t('home.blog_view_more', 'Lihat Lebih Banyak')}</span>
+                <div className="learn-more-arrow">
+                  <span className="arrow-line"></span>
+                  <span className="arrow-circle">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                  </span>
+                </div>
+              </Link>
+
+              <div className="home-blog-dots-container"></div>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );
