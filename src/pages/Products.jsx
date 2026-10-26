@@ -1,14 +1,31 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import AnimatedSection from '../components/AnimatedSection';
 import Button from '../components/Button';
 import CatalogCard from '../components/CatalogCard';
-import { categories, products } from '../data/products';
+import { categories, products as initialProducts } from '../data/products';
+import { apiGetProducts } from '../services/api';
 import './Products.css';
 
 const Products = () => {
   const { t, i18n } = useTranslation();
   const [activeFilter, setActiveFilter] = useState('All');
+  const [productList, setProductList] = useState(initialProducts);
+
+  useEffect(() => {
+    let isMounted = true;
+    apiGetProducts().then((data) => {
+      if (isMounted && Array.isArray(data) && data.length > 0) {
+        setProductList(data);
+      }
+    }).catch((err) => {
+      console.warn('Could not fetch live products:', err);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const label = (category) => (i18n.language === 'id' ? category.labelId : category.label);
 
@@ -21,10 +38,10 @@ const Products = () => {
     return visible
       .map((category) => ({
         ...category,
-        items: products.filter((p) => p.category === category.id)
+        items: productList.filter((p) => p.category === category.id)
       }))
       .filter((category) => category.items.length > 0);
-  }, [activeFilter]);
+  }, [activeFilter, productList]);
 
   const totalShown = collections.reduce((sum, c) => sum + c.items.length, 0);
 
@@ -57,8 +74,8 @@ const Products = () => {
               {categories.map((category) => {
                 const count =
                   category.id === 'All'
-                    ? products.length
-                    : products.filter((p) => p.category === category.id).length;
+                    ? productList.length
+                    : productList.filter((p) => p.category === category.id).length;
 
                 return (
                   <button
@@ -89,14 +106,14 @@ const Products = () => {
 
               <div className="product-catalog-grid">
                 {collection.items.map((product, index) => (
-                  <AnimatedSection key={product.title} delay={0.08 * (index % 3)} yOffset={30}>
+                  <AnimatedSection key={product.id || product.ref || `${product.title}-${index}`} delay={0.08 * (index % 3)} yOffset={30}>
                     <CatalogCard
                       index={index}
                       title={product.title}
                       subCategory={product.subCategory}
                       material={product.material}
                       image={product.image}
-                      note={t('products.custom_size')}
+                      note={product.note || t('products.custom_size')}
                     />
                   </AnimatedSection>
                 ))}
