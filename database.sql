@@ -19,9 +19,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Default Admin User:
--- Username: admin
--- Password: admin123 (hashed with bcrypt: $2y$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRpHGxK9sWbYv18L/v7tPjA1m6G9W)
--- User can change password anytime in Admin Panel
 INSERT INTO `users` (`username`, `password`, `name`, `role`) VALUES
 ('admin', '$2y$10$T87sK3Bqj5VqQ1l9vYvYk.M5cZc0Y0bZ4p1qE1V6J8zH9w1r7fX1u', 'Administrator Kriya Kayu', 'admin')
 ON DUPLICATE KEY UPDATE `username`=`username`;
