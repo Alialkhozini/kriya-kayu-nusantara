@@ -12,6 +12,7 @@ import {
 } from '../components/Icons';
 import { categories, products } from '../data/products';
 import { getStoredBlogs } from '../data/blogs';
+import { apiGetBlogs } from '../services/api';
 
 // Swiper styles
 import 'swiper/css';
@@ -30,10 +31,16 @@ const COLLECTION_COVERS = {
 
 const Home = () => {
   const { t, i18n } = useTranslation();
-  const [blogs, setBlogs] = React.useState([]);
+  const [blogs, setBlogs] = React.useState(() => getStoredBlogs());
 
   React.useEffect(() => {
-    setBlogs(getStoredBlogs());
+    let isMounted = true;
+    apiGetBlogs().then((data) => {
+      if (isMounted && Array.isArray(data) && data.length > 0) {
+        setBlogs(data);
+      }
+    }).catch(() => {});
+    return () => { isMounted = false; };
   }, []);
 
   const [swiperInstance, setSwiperInstance] = React.useState(null);

@@ -4,19 +4,29 @@ import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
 import { getStoredBlogs } from '../data/blogs';
+import { apiGetBlogs } from '../services/api';
 import './Blog.css';
 
 const POSTS_PER_PAGE = 6;
 
 const Blog = () => {
   const { t } = useTranslation();
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState(() => getStoredBlogs());
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
-    setBlogs(getStoredBlogs());
+    let isMounted = true;
+    apiGetBlogs().then((data) => {
+      if (isMounted && Array.isArray(data) && data.length > 0) {
+        setBlogs(data);
+      }
+    }).catch((err) => {
+      console.warn('Could not fetch live blogs:', err);
+    });
+
+    return () => { isMounted = false; };
   }, []);
 
   const categories = useMemo(() => {
@@ -31,10 +41,13 @@ const Blog = () => {
 
   const filteredBlogs = useMemo(() => {
     return blogs.filter((post) => {
+      const s = searchQuery.toLowerCase();
       const matchSearch =
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (post.summary && post.summary.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (post.tags && post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())));
+        !s ||
+        (post.title && post.title.toLowerCase().includes(s)) ||
+        (post.summary && post.summary.toLowerCase().includes(s)) ||
+        (Array.isArray(post.tags) && post.tags.some((tag) => tag.toLowerCase().includes(s))) ||
+        (typeof post.tags === 'string' && post.tags.toLowerCase().includes(s));
       const matchCategory = selectedCategory === 'All' || post.category === selectedCategory;
       return matchSearch && matchCategory;
     });
@@ -76,7 +89,7 @@ const Blog = () => {
               <Search size={18} className="search-icon" />
               <input
                 type="text"
-                placeholder="Cari artikel, tren, atau topik..."
+                placeholder="Search articles, keywords, craftsmanship..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -95,7 +108,7 @@ const Blog = () => {
                     setCurrentPage(1);
                   }}
                 >
-                  {cat}
+                  {cat === 'All' ? 'Semua' : cat}
                 </button>
               ))}
             </div>
@@ -127,9 +140,7 @@ const Blog = () => {
                         <div className="learn-more-arrow">
                           <span className="arrow-line"></span>
                           <span className="arrow-circle">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                              <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
+                            <ChevronRight size={14} />
                           </span>
                         </div>
                       </Link>

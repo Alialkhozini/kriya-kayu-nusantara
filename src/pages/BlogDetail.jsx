@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Clock, Eye, Share2 } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
 import { getStoredBlogs, getBlogByIdOrSlug } from '../data/blogs';
+import { apiGetBlogs, apiGetBlogBySlug } from '../services/api';
 import './BlogDetail.css';
 
 const BlogDetail = () => {
@@ -15,18 +16,35 @@ const BlogDetail = () => {
   const [allBlogs, setAllBlogs] = useState([]);
 
   useEffect(() => {
+    let isMounted = true;
     const blogs = getStoredBlogs();
     setAllBlogs(blogs);
     const found = getBlogByIdOrSlug(id);
     if (found) {
       setPost(found);
-    } else {
-      // If not found by direct id or slug, fallback to first post
-      if (blogs.length > 0) {
-        setPost(blogs[0]);
-      }
+    } else if (blogs.length > 0) {
+      setPost(blogs[0]);
     }
+
+    // Live fetch from MySQL backend
+    apiGetBlogBySlug(id).then((livePost) => {
+      if (isMounted && livePost) {
+        setPost(livePost);
+      }
+    }).catch(() => {});
+
+    apiGetBlogs().then((liveBlogs) => {
+      if (isMounted && Array.isArray(liveBlogs) && liveBlogs.length > 0) {
+        setAllBlogs(liveBlogs);
+        if (!found) {
+          const liveFound = liveBlogs.find(b => b.slug === id || String(b.id) === String(id));
+          if (liveFound) setPost(liveFound);
+        }
+      }
+    }).catch(() => {});
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    return () => { isMounted = false; };
   }, [id]);
 
   if (!post) {
@@ -171,7 +189,7 @@ const BlogDetail = () => {
 
               {/* Main Body Content */}
               <div className="article-body-content">
-                {post.content.split('\n\n').map((paragraph, idx) => (
+                {(post.content || post.summary || '').split('\n\n').map((paragraph, idx) => (
                   <p key={idx}>{paragraph}</p>
                 ))}
               </div>
@@ -187,7 +205,9 @@ const BlogDetail = () => {
               <div className="article-tags-row">
                 <span className="tags-label">TAG:</span>
                 <div className="tags-list">
-                  {(post.tags && post.tags.length > 0 ? post.tags : ['Architecture', 'Wood Craft', 'Modern Design']).map((tag) => (
+                  {(Array.isArray(post.tags) && post.tags.length > 0
+                    ? post.tags 
+                    : (typeof post.tags === 'string' && post.tags ? post.tags.split(',').map(t => t.trim()).filter(Boolean) : ['Architecture', 'Wood Craft', 'Modern Design'])).map((tag) => (
                     <span key={tag} className="article-tag-item">{tag}</span>
                   ))}
                 </div>

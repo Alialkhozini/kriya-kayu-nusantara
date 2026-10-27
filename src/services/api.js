@@ -15,25 +15,36 @@ function getAuthHeader() {
   };
 }
 
+// Normalize blog tags into an array
+export function normalizeBlog(blog) {
+  if (!blog) return blog;
+  let tags = blog.tags;
+  if (typeof tags === 'string') {
+    tags = tags.split(',').map(t => t.trim()).filter(Boolean);
+  } else if (!Array.isArray(tags)) {
+    tags = [];
+  }
+  return {
+    ...blog,
+    tags
+  };
+}
+
 // ================= AUTH =================
 export async function apiLogin(username, password) {
-  try {
-    const res = await fetch(`${API_BASE}/auth.php?action=login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await res.json();
-    if (!res.ok || !data.success) {
-      throw new Error(data.message || 'Login gagal.');
-    }
-    localStorage.setItem('kriya_auth_token', data.token);
-    localStorage.setItem('kriya_admin_auth', 'true');
-    localStorage.setItem('kriya_admin_user', JSON.stringify(data.user));
-    return data;
-  } catch (err) {
-    throw err;
+  const res = await fetch(`${API_BASE}/auth.php?action=login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  });
+  const data = await res.json();
+  if (!res.ok || !data.success) {
+    throw new Error(data.message || 'Login gagal.');
   }
+  localStorage.setItem('kriya_auth_token', data.token);
+  localStorage.setItem('kriya_admin_auth', 'true');
+  localStorage.setItem('kriya_admin_user', JSON.stringify(data.user));
+  return data;
 }
 
 export async function apiCheckAuth() {
@@ -77,7 +88,6 @@ export async function apiGetProducts(category = '', search = '') {
     if (!res.ok) throw new Error('Network response was not ok');
     const json = await res.json();
     if (json.success && Array.isArray(json.data)) {
-      // update cache
       localStorage.setItem(PRODUCT_STORAGE_KEY, JSON.stringify(json.data));
       return json.data;
     }
@@ -85,7 +95,6 @@ export async function apiGetProducts(category = '', search = '') {
     console.warn('API Products unavailable, using fallback/cached data:', err);
   }
 
-  // Fallback to cache or initial products
   const cached = localStorage.getItem(PRODUCT_STORAGE_KEY);
   let list = cached ? JSON.parse(cached) : fallbackProducts;
 
@@ -158,12 +167,14 @@ export async function apiGetBlogs(search = '') {
     if (!res.ok) throw new Error('Network error');
     const json = await res.json();
     if (json.success && Array.isArray(json.data)) {
-      return json.data;
+      const normalized = json.data.map(normalizeBlog);
+      localStorage.setItem('kriya_blogs_data', JSON.stringify(normalized));
+      return normalized;
     }
   } catch (err) {
     console.warn('API Blogs unavailable, using local blogs:', err);
   }
-  return getStoredBlogs();
+  return getStoredBlogs().map(normalizeBlog);
 }
 
 export async function apiGetBlogBySlug(slug) {
@@ -171,13 +182,15 @@ export async function apiGetBlogBySlug(slug) {
     const res = await fetch(`${API_BASE}/blogs.php?slug=${encodeURIComponent(slug)}`);
     if (res.ok) {
       const json = await res.json();
-      if (json.success && json.data) return json.data;
+      if (json.success && json.data) {
+        return normalizeBlog(json.data);
+      }
     }
   } catch (err) {
     console.warn('API get blog by slug error:', err);
   }
-  const blogs = getStoredBlogs();
-  return blogs.find(b => b.slug === slug || b.id === slug) || null;
+  const blogs = getStoredBlogs().map(normalizeBlog);
+  return blogs.find(b => b.slug === slug || String(b.id) === String(slug)) || null;
 }
 
 export async function apiSaveBlog(blogData) {
@@ -194,7 +207,7 @@ export async function apiSaveBlog(blogData) {
   if (!res.ok || !json.success) {
     throw new Error(json.message || `Gagal menyimpan artikel (HTTP ${res.status})`);
   }
-  return json.data;
+  return normalizeBlog(json.data);
 }
 
 export async function apiDeleteBlog(idOrSlug) {
