@@ -164,8 +164,13 @@ const Home = () => {
               {({ isActive }) => (
                 <div
                   className={`hero-slide-bg ${slide.isVideo ? 'hero-slide-video' : ''}`}
-                  style={slide.isVideo ? {} : { backgroundImage: `url(${slide.image})` }}
-                >
+                  >
+                  {!slide.isVideo && (
+                    <div
+                      className="hero-image-layer"
+                      style={{ backgroundImage: `url(${slide.image})` }}
+                    />
+                  )}
                   {slide.isVideo && (
                     <>
                       <video
@@ -190,6 +195,7 @@ const Home = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -40 }}
                             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                            className="hero-motion-wrap"
                           >
                             <h1 className="hero-title">{slide.title}</h1>
                             <p className="hero-subtitle">{slide.subtitle}</p>
