@@ -40,8 +40,14 @@ const Footer = () => {
         <div className="footer-links">
           <h4>{t('footer.company')}</h4>
           <ul>
+            <li><Link to="/">{t('navbar.home')}</Link></li>
             <li><Link to="/about">{t('navbar.about')}</Link></li>
-            <li><Link to="/craftsmanship">{t('navbar.craftsmanship')}</Link></li>            <li><Link to="/blog">{t('navbar.blog')}</Link></li>\n            <li><Link to="/contact">{t('navbar.contact')}</Link></li>
+            <li><Link to="/craftsmanship">{t('navbar.craftsmanship')}</Link></li>
+            <li><Link to="/products">{t('navbar.products')}</Link></li>
+            <li><Link to="/services">{t('navbar.services')}</Link></li>
+            <li><Link to="/contact">{t('navbar.contact')}</Link></li>
+            <li><Link to="/blog">{t('navbar.blog')}</Link></li>
+            <li><Link to="/admin">{t('navbar.admin')}</Link></li>
           </ul>
         </div>
 
