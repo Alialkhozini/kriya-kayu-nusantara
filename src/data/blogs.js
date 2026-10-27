@@ -144,7 +144,13 @@ Thanks to the high natural rubber and silica content of Indonesian Perhutani tea
   }
 ];
 
-const STORAGE_KEY = 'kriya_blogs';
+const STORAGE_KEY = 'kriya_blogs_v2';
+
+// Immediately purge legacy mock cache so old failed test articles never flash
+try {
+  localStorage.removeItem('kriya_blogs');
+  localStorage.removeItem('kriya_blogs_data');
+} catch (e) {}
 
 export function getStoredBlogs() {
   try {

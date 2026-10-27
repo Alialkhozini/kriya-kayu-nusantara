@@ -168,7 +168,7 @@ export async function apiGetBlogs(search = '') {
     const json = await res.json();
     if (json.success && Array.isArray(json.data)) {
       const normalized = json.data.map(normalizeBlog);
-      localStorage.setItem('kriya_blogs_data', JSON.stringify(normalized));
+      localStorage.setItem('kriya_blogs_v2', JSON.stringify(normalized));
       return normalized;
     }
   } catch (err) {
