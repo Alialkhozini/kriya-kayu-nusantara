@@ -122,6 +122,14 @@ const Admin = () => {
   // Check auth on load
   useEffect(() => {
     const isAuth = localStorage.getItem('kriya_admin_auth') === 'true';
+    const token = localStorage.getItem('kriya_auth_token');
+
+    // If previously in mock mode without real server token, log out cleanly so user gets fresh token
+    if (isAuth && !token) {
+      handleLogout();
+      return;
+    }
+
     if (isAuth) {
       setIsAuthenticated(true);
       setCurrentUser(getCachedUser());
@@ -262,7 +270,12 @@ const Admin = () => {
       setIsProductModalOpen(false);
       loadProductsData();
     } catch (err) {
-      alert('Gagal menyimpan produk: ' + err.message);
+      if (err.message && (err.message.includes('Akses ditolak') || err.message.includes('401'))) {
+        alert('Sesi login Anda telah berakhir atau belum terotentikasi ke database. Silakan masuk kembali.');
+        handleLogout();
+      } else {
+        alert('Gagal menyimpan produk: ' + err.message);
+      }
     }
   };
 
@@ -392,7 +405,12 @@ const Admin = () => {
       setBlogActiveTab('list');
       loadBlogsData();
     } catch (err) {
-      alert('Gagal menyimpan artikel: ' + err.message);
+      if (err.message && (err.message.includes('Akses ditolak') || err.message.includes('401'))) {
+        alert('Sesi login Anda telah berakhir atau belum terotentikasi ke database. Silakan masuk kembali.');
+        handleLogout();
+      } else {
+        alert('Gagal menyimpan artikel: ' + err.message);
+      }
     }
   };
 

@@ -19,8 +19,8 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `users` (`username`, `password`, `name`, `role`) VALUES
-('admin', '$2y$10$T87sK3Bqj5VqQ1l9vYvYk.M5cZc0Y0bZ4p1qE1V6J8zH9w1r7fX1u', 'Administrator Kriya Kayu', 'admin')
-ON DUPLICATE KEY UPDATE `username`=`username`;
+('admin', '$2y$10$L.YvDbjRF4LtE1i5n0dTbOQ7adudKMQU5foW3PS9PnQG852zazDgy', 'Administrator Kriya Kayu', 'admin')
+ON DUPLICATE KEY UPDATE `password`=VALUES(`password`);
 
 -- 2. Table: products (image column is LONGTEXT to support Base64 data and direct uploads)
 DROP TABLE IF EXISTS `products`;

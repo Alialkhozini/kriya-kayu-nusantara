@@ -7,8 +7,12 @@ import { getStoredBlogs, saveBlog as fallbackSaveBlog, deleteBlog as fallbackDel
 const API_BASE = '/api';
 
 function getAuthHeader() {
-  const token = localStorage.getItem('kriya_auth_token');
-  return token ? { 'Authorization': `Bearer ${token}` } : {};
+  const token = localStorage.getItem('kriya_auth_token') || '';
+  if (!token) return {};
+  return {
+    'Authorization': `Bearer ${token}`,
+    'X-Auth-Token': token
+  };
 }
 
 // ================= AUTH =================
@@ -28,12 +32,21 @@ export async function apiLogin(username, password) {
     localStorage.setItem('kriya_admin_user', JSON.stringify(data.user));
     return data;
   } catch (err) {
-    // Local offline demo fallback
-    if (username === 'admin' && password === 'admin123') {
-      localStorage.setItem('kriya_admin_auth', 'true');
-      return { success: true, message: 'Login demo berhasil (mode offline)', user: { username: 'admin', name: 'Administrator' } };
-    }
     throw err;
+  }
+}
+
+export async function apiCheckAuth() {
+  const token = localStorage.getItem('kriya_auth_token');
+  if (!token) return false;
+  try {
+    const res = await fetch(`${API_BASE}/auth.php?action=check`, {
+      headers: getAuthHeader()
+    });
+    const data = await res.json();
+    return res.ok && data.success;
+  } catch {
+    return false;
   }
 }
 
@@ -92,78 +105,47 @@ export async function apiGetProducts(category = '', search = '') {
 }
 
 export async function apiCreateProduct(productData) {
-  try {
-    const res = await fetch(`${API_BASE}/products.php`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
-      },
-      body: JSON.stringify(productData)
-    });
-    const json = await res.json();
-    if (!res.ok || !json.success) throw new Error(json.message || 'Gagal menambahkan produk');
-    return json.data;
-  } catch (err) {
-    // Offline fallback: save to localStorage cache
-    console.warn('API offline, saving product locally:', err);
-    const cached = localStorage.getItem(PRODUCT_STORAGE_KEY);
-    const list = cached ? JSON.parse(cached) : [...fallbackProducts];
-    const newProd = {
-      ...productData,
-      id: Date.now(),
-      ref: productData.ref || `PROD-${Date.now()}`
-    };
-    list.unshift(newProd);
-    localStorage.setItem(PRODUCT_STORAGE_KEY, JSON.stringify(list));
-    return newProd;
+  const res = await fetch(`${API_BASE}/products.php`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeader()
+    },
+    body: JSON.stringify(productData)
+  });
+  const json = await res.json().catch(() => ({ success: false, message: 'Server tidak mengembalikan respons JSON yang valid.' }));
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || `Gagal menambahkan produk (HTTP ${res.status})`);
   }
+  return json.data;
 }
 
 export async function apiUpdateProduct(id, productData) {
-  try {
-    const res = await fetch(`${API_BASE}/products.php`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
-      },
-      body: JSON.stringify({ id, ...productData })
-    });
-    const json = await res.json();
-    if (!res.ok || !json.success) throw new Error(json.message || 'Gagal memperbarui produk');
-    return json.data;
-  } catch (err) {
-    console.warn('API offline, updating product locally:', err);
-    const cached = localStorage.getItem(PRODUCT_STORAGE_KEY);
-    const list = cached ? JSON.parse(cached) : [...fallbackProducts];
-    const idx = list.findIndex(p => p.id === id || p.ref === productData.ref);
-    if (idx >= 0) {
-      list[idx] = { ...list[idx], ...productData };
-      localStorage.setItem(PRODUCT_STORAGE_KEY, JSON.stringify(list));
-      return list[idx];
-    }
-    throw err;
+  const res = await fetch(`${API_BASE}/products.php`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeader()
+    },
+    body: JSON.stringify({ id, ...productData })
+  });
+  const json = await res.json().catch(() => ({ success: false, message: 'Server tidak mengembalikan respons JSON yang valid.' }));
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || `Gagal memperbarui produk (HTTP ${res.status})`);
   }
+  return json.data;
 }
 
 export async function apiDeleteProduct(id, ref) {
-  try {
-    const res = await fetch(`${API_BASE}/products.php?id=${id}`, {
-      method: 'DELETE',
-      headers: getAuthHeader()
-    });
-    const json = await res.json();
-    if (!res.ok || !json.success) throw new Error(json.message || 'Gagal menghapus produk');
-    return json;
-  } catch (err) {
-    console.warn('API offline, deleting product locally:', err);
-    const cached = localStorage.getItem(PRODUCT_STORAGE_KEY);
-    const list = cached ? JSON.parse(cached) : [...fallbackProducts];
-    const filtered = list.filter(p => p.id !== id && p.ref !== ref);
-    localStorage.setItem(PRODUCT_STORAGE_KEY, JSON.stringify(filtered));
-    return { success: true };
+  const res = await fetch(`${API_BASE}/products.php?id=${id}`, {
+    method: 'DELETE',
+    headers: getAuthHeader()
+  });
+  const json = await res.json().catch(() => ({ success: false, message: 'Server tidak mengembalikan respons JSON yang valid.' }));
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || `Gagal menghapus produk (HTTP ${res.status})`);
   }
+  return json;
 }
 
 // ================= BLOGS CRUD =================
@@ -199,38 +181,32 @@ export async function apiGetBlogBySlug(slug) {
 }
 
 export async function apiSaveBlog(blogData) {
-  try {
-    const method = blogData.id ? 'PUT' : 'POST';
-    const res = await fetch(`${API_BASE}/blogs.php`, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
-      },
-      body: JSON.stringify(blogData)
-    });
-    const json = await res.json();
-    if (!res.ok || !json.success) throw new Error(json.message || 'Gagal menyimpan artikel');
-    return json.data;
-  } catch (err) {
-    console.warn('API save blog failed, using local storage:', err);
-    return fallbackSaveBlog(blogData);
+  const method = blogData.id ? 'PUT' : 'POST';
+  const res = await fetch(`${API_BASE}/blogs.php`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeader()
+    },
+    body: JSON.stringify(blogData)
+  });
+  const json = await res.json().catch(() => ({ success: false, message: 'Server tidak mengembalikan respons JSON yang valid.' }));
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || `Gagal menyimpan artikel (HTTP ${res.status})`);
   }
+  return json.data;
 }
 
 export async function apiDeleteBlog(idOrSlug) {
-  try {
-    const res = await fetch(`${API_BASE}/blogs.php?slug=${encodeURIComponent(idOrSlug)}`, {
-      method: 'DELETE',
-      headers: getAuthHeader()
-    });
-    const json = await res.json();
-    if (!res.ok || !json.success) throw new Error(json.message || 'Gagal menghapus artikel');
-    return json;
-  } catch (err) {
-    console.warn('API delete blog failed, using local storage:', err);
-    return fallbackDeleteBlog(idOrSlug);
+  const res = await fetch(`${API_BASE}/blogs.php?slug=${encodeURIComponent(idOrSlug)}`, {
+    method: 'DELETE',
+    headers: getAuthHeader()
+  });
+  const json = await res.json().catch(() => ({ success: false, message: 'Server tidak mengembalikan respons JSON yang valid.' }));
+  if (!res.ok || !json.success) {
+    throw new Error(json.message || `Gagal menghapus artikel (HTTP ${res.status})`);
   }
+  return json;
 }
 
 // ================= IMAGE UPLOAD =================
@@ -244,7 +220,7 @@ export async function apiUploadImage(file) {
     body: formData
   });
 
-  const json = await res.json();
+  const json = await res.json().catch(() => ({ success: false, message: 'Gagal mengunggah foto ke server.' }));
   if (!res.ok || !json.success) {
     throw new Error(json.message || 'Gagal mengunggah gambar.');
   }

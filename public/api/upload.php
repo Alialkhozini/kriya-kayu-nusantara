@@ -3,7 +3,7 @@ require_once __DIR__ . '/db.php';
 
 $user = verifyAuthToken();
 if (!$user) {
-    sendError('Akses ditolak. Silakan login terlebih dahulu.', 401);
+    sendError('Akses ditolak. Sesi login telah berakhir, silakan login kembali.', 401);
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -18,7 +18,7 @@ $mime = 'image/jpeg';
 if (!empty($_FILES['image'])) {
     $file = $_FILES['image'];
     if ($file['error'] !== UPLOAD_ERR_OK) {
-        sendError('Gagal mengunggah file. Error code: ' . $file['error'], 400);
+        sendError('Gagal mengunggah file. Kode error: ' . $file['error'], 400);
     }
 
     if ($file['size'] > 15 * 1024 * 1024) {

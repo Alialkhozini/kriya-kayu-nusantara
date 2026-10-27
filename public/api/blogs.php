@@ -62,7 +62,7 @@ if ($method === 'GET') {
 if ($method === 'POST') {
     $user = verifyAuthToken();
     if (!$user) {
-        sendError('Akses ditolak. Silakan login terlebih dahulu.', 401);
+        sendError('Akses ditolak. Sesi login telah berakhir, silakan login kembali.', 401);
     }
 
     $input = json_decode(file_get_contents('php://input'), true) ?? [];
@@ -70,7 +70,7 @@ if ($method === 'POST') {
     $date = $input['date'] ?? date('Y-m-d');
     $category = trim($input['category'] ?? 'Architecture & Tech');
     $tags = is_array($input['tags'] ?? '') ? implode(', ', $input['tags']) : trim($input['tags'] ?? '');
-    $image = trim($input['image'] ?? '/blog/fbc-expo.jpg');
+    $image = trim($input['image'] ?? '/img/restaurant-interior.jpg');
     $summary = trim($input['summary'] ?? '');
     $content = trim($input['content'] ?? $summary);
     $author = trim($input['author'] ?? 'Admin');
@@ -81,6 +81,9 @@ if ($method === 'POST') {
 
     // Generate unique slug
     $baseSlug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
+    if (empty($baseSlug)) {
+        $baseSlug = 'artikel-' . time();
+    }
     $slug = $baseSlug;
     $count = 1;
     while (true) {
@@ -92,24 +95,43 @@ if ($method === 'POST') {
 
     $views = rand(120, 450);
 
-    $stmt = $pdo->prepare("INSERT INTO blogs (slug, title, date, image, category, tags, author, views, summary, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$slug, $title, $date, $image, $category, $tags, $author, $views, $summary, $content]);
+    try {
+        $stmt = $pdo->prepare("INSERT INTO blogs (slug, title, date, image, category, tags, author, views, summary, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$slug, $title, $date, $image, $category, $tags, $author, $views, $summary, $content]);
 
-    $newId = $pdo->lastInsertId();
-    $newBlog = $pdo->query("SELECT * FROM blogs WHERE id = $newId")->fetch();
+        $newId = (int)$pdo->lastInsertId();
+        $newBlog = $pdo->query("SELECT * FROM blogs WHERE id = $newId")->fetch();
 
-    sendResponse([
-        'success' => true,
-        'message' => 'Artikel baru berhasil diterbitkan!',
-        'data' => $newBlog
-    ], 201);
+        sendResponse([
+            'success' => true,
+            'message' => 'Artikel baru berhasil diterbitkan!',
+            'data' => $newBlog
+        ], 201);
+    } catch (PDOException $e) {
+        // Self-heal if image column is too short (VARCHAR instead of LONGTEXT)
+        if ($e->getCode() == '22001' || stripos($e->getMessage(), 'too long') !== false) {
+            @$pdo->exec("ALTER TABLE blogs MODIFY image LONGTEXT NOT NULL;");
+            $stmt = $pdo->prepare("INSERT INTO blogs (slug, title, date, image, category, tags, author, views, summary, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$slug, $title, $date, $image, $category, $tags, $author, $views, $summary, $content]);
+
+            $newId = (int)$pdo->lastInsertId();
+            $newBlog = $pdo->query("SELECT * FROM blogs WHERE id = $newId")->fetch();
+
+            sendResponse([
+                'success' => true,
+                'message' => 'Artikel baru berhasil diterbitkan!',
+                'data' => $newBlog
+            ], 201);
+        }
+        sendError('Gagal menyimpan artikel ke database: ' . $e->getMessage(), 500);
+    }
 }
 
 // PUT /api/blogs.php (Update)
 if ($method === 'PUT') {
     $user = verifyAuthToken();
     if (!$user) {
-        sendError('Akses ditolak. Silakan login terlebih dahulu.', 401);
+        sendError('Akses ditolak. Sesi login telah berakhir, silakan login kembali.', 401);
     }
 
     $input = json_decode(file_get_contents('php://input'), true) ?? [];
@@ -124,35 +146,59 @@ if ($method === 'PUT') {
     $date = $input['date'] ?? date('Y-m-d');
     $category = trim($input['category'] ?? 'Architecture & Tech');
     $tags = is_array($input['tags'] ?? '') ? implode(', ', $input['tags']) : trim($input['tags'] ?? '');
-    $image = trim($input['image'] ?? '/blog/fbc-expo.jpg');
+    $image = trim($input['image'] ?? '/img/restaurant-interior.jpg');
     $summary = trim($input['summary'] ?? '');
     $content = trim($input['content'] ?? $summary);
     $author = trim($input['author'] ?? 'Admin');
 
-    if ($id > 0) {
-        $stmt = $pdo->prepare("UPDATE blogs SET title = ?, date = ?, category = ?, tags = ?, image = ?, summary = ?, content = ?, author = ? WHERE id = ?");
-        $stmt->execute([$title, $date, $category, $tags, $image, $summary, $content, $author, $id]);
-        $updated = $pdo->query("SELECT * FROM blogs WHERE id = $id")->fetch();
-    } else {
-        $stmt = $pdo->prepare("UPDATE blogs SET title = ?, date = ?, category = ?, tags = ?, image = ?, summary = ?, content = ?, author = ? WHERE slug = ?");
-        $stmt->execute([$title, $date, $category, $tags, $image, $summary, $content, $author, $slug]);
-        $updated = $pdo->prepare("SELECT * FROM blogs WHERE slug = ?");
-        $updated->execute([$slug]);
-        $updated = $updated->fetch();
-    }
+    try {
+        if ($id > 0) {
+            $stmt = $pdo->prepare("UPDATE blogs SET title = ?, date = ?, category = ?, tags = ?, image = ?, summary = ?, content = ?, author = ? WHERE id = ?");
+            $stmt->execute([$title, $date, $category, $tags, $image, $summary, $content, $author, $id]);
+            $updated = $pdo->query("SELECT * FROM blogs WHERE id = $id")->fetch();
+        } else {
+            $stmt = $pdo->prepare("UPDATE blogs SET title = ?, date = ?, category = ?, tags = ?, image = ?, summary = ?, content = ?, author = ? WHERE slug = ?");
+            $stmt->execute([$title, $date, $category, $tags, $image, $summary, $content, $author, $slug]);
+            $updated = $pdo->prepare("SELECT * FROM blogs WHERE slug = ?");
+            $updated->execute([$slug]);
+            $updated = $updated->fetch();
+        }
 
-    sendResponse([
-        'success' => true,
-        'message' => 'Artikel berhasil diperbarui!',
-        'data' => $updated
-    ]);
+        sendResponse([
+            'success' => true,
+            'message' => 'Artikel berhasil diperbarui!',
+            'data' => $updated
+        ]);
+    } catch (PDOException $e) {
+        if ($e->getCode() == '22001' || stripos($e->getMessage(), 'too long') !== false) {
+            @$pdo->exec("ALTER TABLE blogs MODIFY image LONGTEXT NOT NULL;");
+            if ($id > 0) {
+                $stmt = $pdo->prepare("UPDATE blogs SET title = ?, date = ?, category = ?, tags = ?, image = ?, summary = ?, content = ?, author = ? WHERE id = ?");
+                $stmt->execute([$title, $date, $category, $tags, $image, $summary, $content, $author, $id]);
+                $updated = $pdo->query("SELECT * FROM blogs WHERE id = $id")->fetch();
+            } else {
+                $stmt = $pdo->prepare("UPDATE blogs SET title = ?, date = ?, category = ?, tags = ?, image = ?, summary = ?, content = ?, author = ? WHERE slug = ?");
+                $stmt->execute([$title, $date, $category, $tags, $image, $summary, $content, $author, $slug]);
+                $updated = $pdo->prepare("SELECT * FROM blogs WHERE slug = ?");
+                $updated->execute([$slug]);
+                $updated = $updated->fetch();
+            }
+
+            sendResponse([
+                'success' => true,
+                'message' => 'Artikel berhasil diperbarui!',
+                'data' => $updated
+            ]);
+        }
+        sendError('Gagal memperbarui artikel: ' . $e->getMessage(), 500);
+    }
 }
 
 // DELETE /api/blogs.php?id=X
 if ($method === 'DELETE') {
     $user = verifyAuthToken();
     if (!$user) {
-        sendError('Akses ditolak. Silakan login terlebih dahulu.', 401);
+        sendError('Akses ditolak. Sesi login telah berakhir, silakan login kembali.', 401);
     }
 
     $id = (int)($_GET['id'] ?? 0);

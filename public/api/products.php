@@ -43,7 +43,7 @@ if ($method === 'GET') {
 if ($method === 'POST') {
     $user = verifyAuthToken();
     if (!$user) {
-        sendError('Akses ditolak. Silakan login terlebih dahulu.', 401);
+        sendError('Akses ditolak. Sesi login telah berakhir, silakan login kembali.', 401);
     }
 
     $input = json_decode(file_get_contents('php://input'), true) ?? [];
@@ -60,26 +60,45 @@ if ($method === 'POST') {
     }
 
     // Determine sort_order
-    $maxSort = $pdo->query("SELECT COALESCE(MAX(sort_order), 0) + 1 FROM products")->fetchColumn();
+    $maxSort = (int)$pdo->query("SELECT COALESCE(MAX(sort_order), 0) + 1 FROM products")->fetchColumn();
 
-    $stmt = $pdo->prepare("INSERT INTO products (ref, category, subCategory, title, material, image, note, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$ref, $category, $subCategory, $title, $material, $image, $note, $maxSort]);
+    try {
+        $stmt = $pdo->prepare("INSERT INTO products (ref, category, subCategory, title, material, image, note, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$ref, $category, $subCategory, $title, $material, $image, $note, $maxSort]);
 
-    $newId = $pdo->lastInsertId();
-    $newProduct = $pdo->query("SELECT * FROM products WHERE id = " . (int)$newId)->fetch();
+        $newId = (int)$pdo->lastInsertId();
+        $newProduct = $pdo->query("SELECT * FROM products WHERE id = $newId")->fetch();
 
-    sendResponse([
-        'success' => true,
-        'message' => 'Produk berhasil ditambahkan ke katalog!',
-        'data' => $newProduct
-    ], 201);
+        sendResponse([
+            'success' => true,
+            'message' => 'Produk berhasil ditambahkan ke katalog!',
+            'data' => $newProduct
+        ], 201);
+    } catch (PDOException $e) {
+        // Self-heal if image column is too short (VARCHAR instead of LONGTEXT)
+        if ($e->getCode() == '22001' || stripos($e->getMessage(), 'too long') !== false) {
+            @$pdo->exec("ALTER TABLE products MODIFY image LONGTEXT NOT NULL;");
+            $stmt = $pdo->prepare("INSERT INTO products (ref, category, subCategory, title, material, image, note, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$ref, $category, $subCategory, $title, $material, $image, $note, $maxSort]);
+
+            $newId = (int)$pdo->lastInsertId();
+            $newProduct = $pdo->query("SELECT * FROM products WHERE id = $newId")->fetch();
+
+            sendResponse([
+                'success' => true,
+                'message' => 'Produk berhasil ditambahkan ke katalog!',
+                'data' => $newProduct
+            ], 201);
+        }
+        sendError('Gagal menyimpan produk ke database: ' . $e->getMessage(), 500);
+    }
 }
 
 // PUT /api/products.php (Update)
 if ($method === 'PUT') {
     $user = verifyAuthToken();
     if (!$user) {
-        sendError('Akses ditolak. Silakan login terlebih dahulu.', 401);
+        sendError('Akses ditolak. Sesi login telah berakhir, silakan login kembali.', 401);
     }
 
     $input = json_decode(file_get_contents('php://input'), true) ?? [];
@@ -106,32 +125,57 @@ if ($method === 'PUT') {
 
     $params[] = $id;
     $sql = "UPDATE products SET " . implode(', ', $fields) . " WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
 
-    $updatedProduct = $pdo->query("SELECT * FROM products WHERE id = $id")->fetch();
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
 
-    sendResponse([
-        'success' => true,
-        'message' => 'Produk katalog berhasil diperbarui!',
-        'data' => $updatedProduct
-    ]);
+        $updatedProduct = $pdo->query("SELECT * FROM products WHERE id = $id")->fetch();
+
+        sendResponse([
+            'success' => true,
+            'message' => 'Produk berhasil diperbarui!',
+            'data' => $updatedProduct
+        ]);
+    } catch (PDOException $e) {
+        if ($e->getCode() == '22001' || stripos($e->getMessage(), 'too long') !== false) {
+            @$pdo->exec("ALTER TABLE products MODIFY image LONGTEXT NOT NULL;");
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+
+            $updatedProduct = $pdo->query("SELECT * FROM products WHERE id = $id")->fetch();
+
+            sendResponse([
+                'success' => true,
+                'message' => 'Produk berhasil diperbarui!',
+                'data' => $updatedProduct
+            ]);
+        }
+        sendError('Gagal memperbarui produk: ' . $e->getMessage(), 500);
+    }
 }
 
 // DELETE /api/products.php?id=X
 if ($method === 'DELETE') {
     $user = verifyAuthToken();
     if (!$user) {
-        sendError('Akses ditolak. Silakan login terlebih dahulu.', 401);
+        sendError('Akses ditolak. Sesi login telah berakhir, silakan login kembali.', 401);
     }
 
     $id = (int)($_GET['id'] ?? 0);
-    if ($id <= 0) {
-        sendError('ID Produk tidak valid.', 400);
+    $ref = trim($_GET['ref'] ?? '');
+
+    if ($id <= 0 && empty($ref)) {
+        sendError('ID atau Kode Ref produk wajib dicantumkan.', 400);
     }
 
-    $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
-    $stmt->execute([$id]);
+    if ($id > 0) {
+        $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
+        $stmt->execute([$id]);
+    } else {
+        $stmt = $pdo->prepare("DELETE FROM products WHERE ref = ?");
+        $stmt->execute([$ref]);
+    }
 
     sendResponse([
         'success' => true,
