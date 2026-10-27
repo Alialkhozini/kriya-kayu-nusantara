@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Lock, User, LogOut, Plus, Edit, Trash2, ExternalLink, 
-  Eye, CheckCircle2, AlertCircle, RotateCcw, Image as ImageIcon,
-  FileText, Tag, Calendar, Layers, ShieldCheck, ArrowRight,
-  Package, Search, Filter, Upload, X, RefreshCw
+  Eye, CheckCircle2, AlertCircle,
+  FileText, Layers, ShieldCheck, ArrowRight,
+  Package, Search, Upload, X, RefreshCw
 } from 'lucide-react';
 import { 
   apiLogin, apiLogout, getCachedUser,
@@ -451,11 +451,11 @@ const Admin = () => {
               </div>
               <div className="user-details">
                 <span className="user-name">{currentUser?.name || 'Administrator'}</span>
-                <span className="user-role">Administrator</span>
+                <span className="user-role">Super Admin</span>
               </div>
             </div>
 
-            <Link to="/products" target="_blank" className="btn-icon-subtle" title="Buka Katalog Produk">
+            <Link to="/products" target="_blank" className="btn-icon-subtle" title="Buka Katalog Publik">
               <ExternalLink size={18} />
             </Link>
 
