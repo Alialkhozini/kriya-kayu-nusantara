@@ -14,27 +14,55 @@ import {
 import { categories as defaultCategories } from '../data/products';
 import './Admin.css';
 
-const PRESET_BLOG_IMAGES = [
-  { label: 'FBC Expo (Curtain Wall)', url: '/blog/fbc-expo.jpg' },
-  { label: 'Curtain Wall Trends (Night)', url: '/blog/curtain-wall-trends.jpg' },
-  { label: 'Large-Span Glass Pavilion', url: '/blog/large-span-curtain.jpg' },
-  { label: 'Teak Joinery Craft', url: '/img/joinery-detail.jpg' },
-  { label: 'Hospitality Restaurant', url: '/img/restaurant-interior.jpg' },
-  { label: 'Workshop Sanding', url: '/img/workshop-sanding.jpg' },
-  { label: 'Workshop Daybed', url: '/img/workshop-daybed.jpg' },
-  { label: 'Living Room Teak', url: '/img/living-room-teak.jpg' },
-];
+// Helper to read and compress image before uploading (optimizes mobile camera photos to ~100KB)
+const processImageFile = (file) => {
+  return new Promise((resolve) => {
+    if (!file) return resolve({ file: null, dataUrl: '' });
+    if (file.type === 'image/svg+xml' || file.size < 60 * 1024) {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve({ file, dataUrl: e.target.result });
+      reader.onerror = () => resolve({ file, dataUrl: '' });
+      reader.readAsDataURL(file);
+      return;
+    }
 
-const PRESET_PRODUCT_IMAGES = [
-  { label: 'Kursi Jati Restoran 1', url: '/catalog/rst-01.jpg' },
-  { label: 'Kursi Jati Restoran 2', url: '/catalog/rst-02.jpg' },
-  { label: 'Kursi Rotan Jati 1', url: '/catalog/rst-04.jpg' },
-  { label: 'Meja Makan Jati', url: '/catalog/rst-17.jpg' },
-  { label: 'Kursi Kolam Renang', url: '/catalog/out-01.jpg' },
-  { label: 'Lampu Gantung Jati', url: '/catalog/lmp-01.jpg' },
-  { label: 'Nampan In-Room Jati', url: '/catalog/roo-01.jpg' },
-  { label: 'Interior Restoran', url: '/img/restaurant-interior.jpg' },
-];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        const maxDim = 1200;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.86);
+
+        fetch(dataUrl)
+          .then(res => res.blob())
+          .then(blob => {
+            const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.jpg', { type: 'image/jpeg' });
+            resolve({ file: compressedFile, dataUrl });
+          })
+          .catch(() => resolve({ file, dataUrl }));
+      };
+      img.onerror = () => resolve({ file, dataUrl: e.target.result });
+      img.src = e.target.result;
+    };
+    reader.onerror = () => resolve({ file, dataUrl: '' });
+    reader.readAsDataURL(file);
+  });
+};
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -69,7 +97,7 @@ const Admin = () => {
     subCategory: 'Kursi',
     title: '',
     material: 'Kayu Jati',
-    image: '/catalog/rst-01.jpg',
+    image: '',
     note: 'Ukuran umum & custom'
   });
 
@@ -85,7 +113,7 @@ const Admin = () => {
     date: new Date().toISOString().split('T')[0],
     category: 'Architecture & Tech',
     tags: 'Curtain Wall, Wood Craft',
-    image: '/blog/fbc-expo.jpg',
+    image: '',
     summary: '',
     content: '',
     author: 'Admin'
@@ -169,7 +197,7 @@ const Admin = () => {
       subCategory: 'Kursi',
       title: '',
       material: 'Kayu Jati',
-      image: '/catalog/rst-01.jpg',
+      image: '',
       note: 'Ukuran umum & custom'
     });
     setIsProductModalOpen(true);
@@ -183,25 +211,36 @@ const Admin = () => {
       subCategory: prod.subCategory || 'Kursi',
       title: prod.title || '',
       material: prod.material || 'Kayu Jati',
-      image: prod.image || '/catalog/rst-01.jpg',
+      image: prod.image || '',
       note: prod.note || 'Ukuran umum & custom'
     });
     setIsProductModalOpen(true);
   };
 
   const handleProductImageUpload = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const rawFile = e.target.files?.[0];
+    if (!rawFile) return;
 
     setIsUploadingProductImg(true);
     try {
-      const url = await apiUploadImage(file);
-      setProductFormData(prev => ({ ...prev, image: url }));
-      showNotification('Foto produk berhasil diunggah!');
+      const { file, dataUrl } = await processImageFile(rawFile);
+      try {
+        const url = await apiUploadImage(file);
+        setProductFormData(prev => ({ ...prev, image: url }));
+        showNotification('Foto produk berhasil diunggah ke server!');
+      } catch (uploadErr) {
+        if (dataUrl) {
+          setProductFormData(prev => ({ ...prev, image: dataUrl }));
+          showNotification('Foto produk siap disimpan ke database!');
+        } else {
+          throw uploadErr;
+        }
+      }
     } catch (err) {
       alert('Gagal mengunggah foto: ' + err.message);
     } finally {
       setIsUploadingProductImg(false);
+      e.target.value = '';
     }
   };
 
@@ -270,7 +309,7 @@ const Admin = () => {
       date: new Date().toISOString().split('T')[0],
       category: 'Architecture & Tech',
       tags: 'Curtain Wall, Wood Craft',
-      image: '/blog/fbc-expo.jpg',
+      image: '',
       summary: '',
       content: '',
       author: currentUser?.name || 'Admin'
@@ -285,7 +324,7 @@ const Admin = () => {
       date: post.date,
       category: post.category || 'Architecture & Tech',
       tags: Array.isArray(post.tags) ? post.tags.join(', ') : post.tags || '',
-      image: post.image || '/blog/fbc-expo.jpg',
+      image: post.image || '',
       summary: post.summary || '',
       content: post.content || '',
       author: post.author || 'Admin'
@@ -307,18 +346,29 @@ const Admin = () => {
   };
 
   const handleBlogImageUpload = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const rawFile = e.target.files?.[0];
+    if (!rawFile) return;
 
     setIsUploadingBlogImg(true);
     try {
-      const url = await apiUploadImage(file);
-      setBlogFormData(prev => ({ ...prev, image: url }));
-      showNotification('Gambar artikel berhasil diunggah!');
+      const { file, dataUrl } = await processImageFile(rawFile);
+      try {
+        const url = await apiUploadImage(file);
+        setBlogFormData(prev => ({ ...prev, image: url }));
+        showNotification('Cover artikel berhasil diunggah ke server!');
+      } catch (uploadErr) {
+        if (dataUrl) {
+          setBlogFormData(prev => ({ ...prev, image: dataUrl }));
+          showNotification('Cover artikel siap disimpan ke database!');
+        } else {
+          throw uploadErr;
+        }
+      }
     } catch (err) {
       alert('Gagal mengunggah gambar: ' + err.message);
     } finally {
       setIsUploadingBlogImg(false);
+      e.target.value = '';
     }
   };
 
@@ -851,11 +901,11 @@ const Admin = () => {
                   </div>
 
                   <div className="form-group">
-                    <label>Cover / Foto Artikel</label>
+                    <label>Cover / Foto Artikel (Pilih dari HP/Laptop atau URL)</label>
                     <div className="image-input-group">
                       <input
                         type="text"
-                        placeholder="/blog/nama-foto.jpg atau https://..."
+                        placeholder="Pilih foto dari HP/Laptop atau tempel URL..."
                         value={blogFormData.image}
                         onChange={(e) => setBlogFormData({ ...blogFormData, image: e.target.value })}
                       />
@@ -1001,11 +1051,11 @@ const Admin = () => {
               </div>
 
               <div className="form-group">
-                <label>Foto Produk (Path atau URL) *</label>
+                <label>Foto Produk (Pilih dari HP/Laptop atau URL) *</label>
                 <div className="image-input-group">
                   <input
                     type="text"
-                    placeholder="/catalog/rst-01.jpg atau https://..."
+                    placeholder="Pilih foto dari HP/Laptop atau tempel URL..."
                     value={productFormData.image}
                     onChange={(e) => setProductFormData({ ...productFormData, image: e.target.value })}
                     required
