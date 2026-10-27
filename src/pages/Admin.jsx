@@ -361,7 +361,7 @@ const Admin = () => {
               <ShieldCheck size={36} />
             </div>
             <h2>Portal Admin</h2>
-            <p>Kriya Kayu Nusantara - Hostinger MySQL Database</p>
+            <p>Kriya Kayu Nusantara - Content Management System</p>
           </div>
 
           {loginError && (
@@ -413,7 +413,7 @@ const Admin = () => {
 
           <div className="demo-credentials-box">
             <div className="demo-info">
-              <span className="demo-badge">Akun Default MySQL</span>
+              <span className="demo-badge">Kredensial Default</span>
               <p>Username: <strong>admin</strong> | Password: <strong>admin123</strong></p>
             </div>
             <button type="button" className="demo-autofill-btn" onClick={handleFillDemo}>
@@ -451,7 +451,7 @@ const Admin = () => {
               </div>
               <div className="user-details">
                 <span className="user-name">{currentUser?.name || 'Administrator'}</span>
-                <span className="user-role">Hostinger MySQL</span>
+                <span className="user-role">Administrator</span>
               </div>
             </div>
 
@@ -526,6 +526,55 @@ const Admin = () => {
               </div>
             </div>
 
+            {/* Quick Stats Grid */}
+            <div className="admin-stats-grid">
+              <div 
+                className={`stat-card ${productCategoryFilter === 'All' ? 'active-stat' : ''}`}
+                onClick={() => setProductCategoryFilter('All')}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="stat-label">Total Produk</div>
+                <div className="stat-value">{products.length}</div>
+                <div className="stat-desc">Semua koleksi</div>
+              </div>
+              <div 
+                className={`stat-card ${productCategoryFilter === 'Restoran' ? 'active-stat' : ''}`}
+                onClick={() => setProductCategoryFilter('Restoran')}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="stat-label">Restoran</div>
+                <div className="stat-value">{products.filter(p => p.category === 'Restoran').length}</div>
+                <div className="stat-desc">Dining & lounge</div>
+              </div>
+              <div 
+                className={`stat-card ${productCategoryFilter === 'KolamRenang' ? 'active-stat' : ''}`}
+                onClick={() => setProductCategoryFilter('KolamRenang')}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="stat-label">Kolam Renang</div>
+                <div className="stat-value">{products.filter(p => p.category === 'KolamRenang').length}</div>
+                <div className="stat-desc">Outdoor & taman</div>
+              </div>
+              <div 
+                className={`stat-card ${productCategoryFilter === 'Lampu' ? 'active-stat' : ''}`}
+                onClick={() => setProductCategoryFilter('Lampu')}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="stat-label">Lampu & Dekoratif</div>
+                <div className="stat-value">{products.filter(p => p.category === 'Lampu').length}</div>
+                <div className="stat-desc">Pendant & ambient</div>
+              </div>
+              <div 
+                className={`stat-card ${productCategoryFilter === 'InRoom' ? 'active-stat' : ''}`}
+                onClick={() => setProductCategoryFilter('InRoom')}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="stat-label">In-Room</div>
+                <div className="stat-value">{products.filter(p => p.category === 'InRoom').length}</div>
+                <div className="stat-desc">Essentials & detail</div>
+              </div>
+            </div>
+
             {/* Filter and Search Bar */}
             <div className="filter-search-card">
               <div className="search-box">
@@ -560,13 +609,13 @@ const Admin = () => {
             <div className="admin-table-card">
               <div className="table-header-info">
                 <h3>Daftar Produk ({filteredProducts.length})</h3>
-                <span className="text-muted">Database: u419950057_kriyakayu</span>
+                <span className="text-muted">Koleksi Furnitur Terpilih</span>
               </div>
 
               {isLoadingProducts ? (
                 <div className="loading-state">
                   <RefreshCw size={24} className="spin" />
-                  <p>Memuat data produk dari database MySQL...</p>
+                  <p>Memuat data produk...</p>
                 </div>
               ) : filteredProducts.length === 0 ? (
                 <div className="empty-state">
@@ -761,7 +810,7 @@ const Admin = () => {
               <div className="admin-editor-card">
                 <div className="editor-card-header">
                   <h2>{editingBlogId ? 'Perbarui Artikel' : 'Publikasikan Artikel Baru'}</h2>
-                  <p>Isi form di bawah untuk menambahkan artikel ke MySQL database</p>
+                  <p>Isi form di bawah untuk mempublikasikan artikel baru</p>
                 </div>
 
                 <form onSubmit={handleSubmitBlog} className="editor-form">
